@@ -1,0 +1,19 @@
+{
+  "name": "alertservice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "run.js",
+  "dependencies": {
+    "amqplib": "^0.5.5",
+    "form-data": "^3.0.0",
+    "node-fetch": "^2.6.0",
+    "url": "^0.11.0",
+    "wretch": "^1.5.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
