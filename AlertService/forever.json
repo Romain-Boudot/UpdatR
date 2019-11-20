@@ -1,0 +1,7 @@
+{
+    "uid": "AlertService",
+    "script": "run.js",
+    "errFile": "/var/log/updatr/error.log",
+    "sourceDir": "/srv/UpdatR/AlertService/",
+    "append": true
+}
