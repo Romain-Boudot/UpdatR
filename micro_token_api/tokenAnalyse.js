@@ -2,7 +2,7 @@ const func_tools = require('./tools/func_tools.js');
 
 const USERS_TOKEN = [] // variable globale chargée de contenir les token des utilisateurs
 
-const N_COUNTDOWN = 2000 // countdown de validité de token
+const N_COUNTDOWN = 2000000 // countdown de validité de token
 
 exports.onLogin = function (token) { // lors d'une connexion
   const user_token = analyseToken(token)
@@ -12,6 +12,9 @@ exports.onLogin = function (token) { // lors d'une connexion
   return token
 }
 
+exports.getUsersToken = function () {
+  return USERS_TOKEN
+}
 
 function createNewUser(token) { // permet de créer un objet 'user' qui conserve le token ET le token decodé
   const user = parseJwt(token.access_token)
@@ -31,11 +34,9 @@ function analyseToken(token) {
   const is_registered = hasUserRegistered(user_token)
   if (is_registered === -1) { // si l'utilisateur n'est pas en mémoire, alors...
     USERS_TOKEN.push(user_token)
-    console.log('A')
   } else { // sinon le mettre à jours
     user_token.countdown_value = USERS_TOKEN[is_registered].countdown_value + 1 // nous incrementons la variable de countdown
     USERS_TOKEN[is_registered] = user_token
-    console.log('B')
   }
   return user_token
 }
@@ -63,7 +64,10 @@ function hasUserRegistered(user_token) { // nous vérifions la présence ou non 
   
 
 function onTokenExpiration(user_token) {
-  const index = func_tools.getIndexObj(USERS_TOKEN, user_token) // nous obtenons l'index de l'objet
-  USERS_TOKEN.splice(index, 1) // pour le retirer
-  console.log(USERS_TOKEN)
+  if (user_token.countdown_value > 0) { // si ce n'est pas le dernier login de cette utilisateur
+    user_token.countdown_value -= 1
+  } else {
+    const index = func_tools.getIndexObj(USERS_TOKEN, user_token) // nous obtenons l'index de l'objet
+    USERS_TOKEN.splice(index, 1) // pour le retirer
+  }
 }

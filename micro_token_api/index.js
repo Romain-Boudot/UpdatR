@@ -4,6 +4,7 @@ var express = require('express');
 var session = require('express-session');
 global.atob = require("atob");
 const tokenAnalyse = require('./tokenAnalyse')
+const apiAuth = require('./api_auth')
 
 var app = express();
 
@@ -14,7 +15,6 @@ var server = app.listen(3000, function () {
 });
 
 app.get('/', function (req, res) {
-  console.log(req.query)
   res.sendFile(__dirname + '/view/index.html');
 });
 
@@ -42,10 +42,8 @@ app.get('/auth/login', keycloak.protect(), function (req, res) {
   res.end()
 });
 
-app.get('/verify/', keycloak.protect(), function (req, res) {
-  res.render('index', {
-    result: JSON.stringify(loginPrint(JSON.parse(req.session['keycloak-token']), null, 4)),
-    event: '1. Authentication\n2. Login'
-  });
+app.get('/api*', function (req, res) {
+  res.write(JSON.stringify(apiAuth.setApi(req)))
+  res.end()
 });
 
