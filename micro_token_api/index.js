@@ -38,9 +38,7 @@ app.use(keycloak.middleware({
 }));
 
 app.get('/auth/login', keycloak.protect(), function (req, res) {
-  res.setHeader('Content-Type', 'application/json');
-  res.write(JSON.stringify(tokenAnalyse.onLogin(JSON.parse(req.session['keycloak-token']), null, 4)))
-  res.end()
+  printJson(res, apiAuth.setApi(tokenAnalyse.onLogin(JSON.parse(req.session['keycloak-token']), null, 4)))
 });
 
 app.get('/api*', function (req, res) {
