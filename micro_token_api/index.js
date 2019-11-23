@@ -32,18 +32,23 @@ var keycloak = new Keycloak({
 });
 
 app.use(keycloak.middleware({
-  logout: '/logout',
+  logout: '/auth/logout',
   admin: '/',
   protected: '/protected/resource'
 }));
 
 app.get('/auth/login', keycloak.protect(), function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
   res.write(JSON.stringify(tokenAnalyse.onLogin(JSON.parse(req.session['keycloak-token']), null, 4)))
   res.end()
 });
 
 app.get('/api*', function (req, res) {
-  res.write(JSON.stringify(apiAuth.setApi(req)))
-  res.end()
+  printJson(res, apiAuth.setApi(req))
 });
 
+function printJson(res, obj) {
+  res.setHeader('Content-Type', 'application/json');
+  res.write(JSON.stringify(obj))
+  res.end()
+}

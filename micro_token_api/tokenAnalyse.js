@@ -2,7 +2,7 @@ const func_tools = require('./tools/func_tools.js');
 
 const USERS_TOKEN = [] // variable globale chargée de contenir les token des utilisateurs
 
-const N_COUNTDOWN = 2000000 // countdown de validité de token
+const N_COUNTDOWN = 216000 // countdown de validité de token de 1 heure
 
 exports.onLogin = function (token) { // lors d'une connexion
   const user_token = analyseToken(token)

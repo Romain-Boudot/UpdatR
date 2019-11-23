@@ -2,7 +2,8 @@ const tokenAnalyse = require('./tokenAnalyse')
 
 PATH_URLS = {
     'all': getAll, // retourne tous les tokens
-    'exist': existPath // retourne true si le token passé en paramètre existe, faux sinon
+    'exist': existPath, // retourne true si l'information passé en paramètre existe, faux sinon
+    'get': null
 }
 
 
@@ -28,7 +29,7 @@ function printPathUrls() { // affiche le retour de cette fonction lors de requê
   return [
     'all',
     'exist/username/{username}',
-    'exist/token/{token}'
+    'exist/token/{access_token}',
   ]
 }
 
@@ -64,24 +65,39 @@ function printExistPath() {
 }
 
 function existToken(path) {
-    const username = path[1]
-    return getUserToken(username)
+    const access_token = path[1]
+    return {
+      exist: getUserByAccessToken(access_token) != null
+    }
 }
 
 function existUserName(path) {
     const username = path[1]
     return {
-      exist: getUserToken(username) != null
+      exist: getUserByUsername(username) != null
     }
 }
 
-function getUserToken(username) {
+function getUserByUsername(username) {
   const users_token = tokenAnalyse.getUsersToken()
-  let token = null
+  let user = null
   for (const user_token of users_token) {
     if (user_token.user.preferred_username === username) {
-      token = user_token 
+      user = user_token
+      break
     }
   }
-  return token
+  return user
+}
+
+function getUserByAccessToken(access_token) {
+  const users_token = tokenAnalyse.getUsersToken()
+  let user = null
+  for (const user_token of users_token) {
+    if (user_token.token.access_token === access_token) {
+      user = user_token
+      break
+    }
+  }
+  return user
 }
