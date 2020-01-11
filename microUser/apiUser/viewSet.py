@@ -1,6 +1,8 @@
 from .models import User, FrequenceList, RapportInfo, Rapport
 from rest_framework import serializers, viewsets
 
+# Dans ce fichier nous déclarons les attributs pour l'API REST en fonction des models existants
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User

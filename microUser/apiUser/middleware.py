@@ -15,7 +15,7 @@ class TokenMiddleware:
             return self.throwError('no token in header (specify by \'Token-User\' attribute in header)')
 
         if not isToken_valid(headers[HEADER_TOKEN]):
-            return self.throwError('Token invalid')
+            return self.throwError('Token invalid') # si le token n'est pas valide, nous envoyons une erreur
 
         response = self.get_response(request)
 
