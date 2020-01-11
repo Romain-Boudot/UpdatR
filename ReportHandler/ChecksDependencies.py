@@ -16,6 +16,11 @@ COMMAND = {
     }
 }
 
+EXECUTOR = {
+    "windows": "subprocess.getoutput('powershell.exe {}'.format(command))",
+    "linux": "{}"
+}
+
 class ChecksDependencies:
 
     def __init__(self, path=None):
@@ -31,7 +36,7 @@ class ChecksDependencies:
     def start(self):
         self.loadReports()
         print(self.getReport())
-        self.git.remove(self.path_git)
+        #self.git.remove(self.path_git)
 
     def loadReports(self):
         self.report.loadReports(self.getDependeciesJson())
@@ -46,8 +51,11 @@ class ChecksDependencies:
             return "windows"
 
     def getDependeciesJson(self):
-        command = COMMAND[self.getOsName()][self.projectType].format(self.path_git)
-        return subprocess.getoutput('powershell.exe {}'.format(command))
+        osName = self.getOsName()
+        command = COMMAND[osName][self.projectType].format(self.path_git)
+        return eval(EXECUTOR[osName].format(command))
+        #return subprocess.getoutput('powershell.exe {}'.format(command))
+
 
     def getInfoProject(self):
         return self.infoProject
