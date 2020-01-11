@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'apiUser.middleware.TokenMiddleware'
+    'apiUser.middleware.Middleware'
 ]
 
 ROOT_URLCONF = 'microUser.urls'

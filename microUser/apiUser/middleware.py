@@ -1,12 +1,22 @@
 from .tokenValidation.token_validate import isToken_valid
 from django.http import HttpResponse
+from .rapport.readRapport import ReadRapport
 
 HEADER_TOKEN = 'Token-User'
 
-class TokenMiddleware:
+RABBIT = {
+    'URL': 'amqp://guest:Romain01@app.updatr.tech',
+    'QUEUE': 'alert'
+}
+
+class Middleware:
     def __init__(self, get_response):
         self.get_response = get_response
-        # One-time configuration and initialization.
+        # self.setQueueListener()
+    
+    # def setQueueListener(self):
+        # rapport = ReadRapport(RABBIT['URL'])
+        # rapport.listen(RABBIT['QUEUE'])
 
     def __call__(self, request):
         headers = request.headers

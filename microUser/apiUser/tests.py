@@ -8,7 +8,6 @@ class TestGetModelMethod(TestCase):
             'BAD': {'error': 'json parse'},
             'RIGHT': ['all', 'exist/username/{username}', 'exist/token/{access_token}']
         }
-        pass
 
     def test_wrong_url(self):
         self.assertTrue(getJSON('WRONGURL') == self.return_value['WRONG']) # dans le cas d'une URL incorrect
