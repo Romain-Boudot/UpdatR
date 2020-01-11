@@ -5,6 +5,7 @@ import os
 import subprocess
 from ReportHandler.ProjectPackageManager import PackageManager
 from ReportHandler.Report import Report
+from Git.GitUser import GitUser
 
 COMMAND = {
     "windows": {
@@ -23,10 +24,14 @@ class ChecksDependencies:
         self.projectType = self.pm.getTypeProjectManage()
         self.infoProject = {}
         self.report = Report()
+        self.git = GitUser(path)
+        self.path_git = self.git.clone()
+
 
     def start(self):
         self.loadReports()
         print(self.getReport())
+        self.git.remove(self.path_git)
 
     def loadReports(self):
         self.report.loadReports(self.getDependeciesJson())
@@ -41,7 +46,7 @@ class ChecksDependencies:
             return "windows"
 
     def getDependeciesJson(self):
-        command = COMMAND[self.getOsName()][self.projectType].format(self.path)
+        command = COMMAND[self.getOsName()][self.projectType].format(self.path_git)
         return subprocess.getoutput('powershell.exe {}'.format(command))
 
     def getInfoProject(self):

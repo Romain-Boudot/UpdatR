@@ -31,19 +31,18 @@ class Report:
             else:
                 name = package
 
-            packageVersion = rep[package]['current']
+            packageVersion = rep[package]['wanted']
             lastVersion = rep[package]['latest']
             packageType = rep[package]['type']
-            homePage = rep[package]['homepage']
             url = "https://www.npmjs.com/package/{}".format(name)
             outdated = self.isOutdated(packageVersion, lastVersion)
+
             self.reports[name] = {
                 "packageVersion": packageVersion,
                 "lastVersion": lastVersion,
                 "url": url,
                 "outdated": outdated,
-                "packageType": packageType,
-                "homePage": homePage
+                "packageType": packageType
             }
 
     def isOutdated(self, actualVersion, lastVersion):
@@ -54,6 +53,13 @@ class Report:
             if int(tabActualVersion[i]) < int(tabLastVersion[i]):
                 return False
         return True
+
+    def hasOutdatedPackage(self):
+        result = False
+        for package in self.reports:
+            if self.reports[package]['outdated']:
+                result = True
+        return result
 
     def getReport(self):
         return self.reports
