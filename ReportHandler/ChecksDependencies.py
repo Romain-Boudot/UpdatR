@@ -6,20 +6,17 @@ import subprocess
 from ReportHandler.ProjectPackageManager import PackageManager
 from ReportHandler.Report import Report
 from Git.GitUser import GitUser
+import subprocess
 
 COMMAND = {
     "windows": {
         "npm": "cd {}; npm outdated --long --json"
     },
-    "linux": {
+    "Linux": {
         "npm": "cd {} && npm outdated --long --json"
     }
 }
 
-EXECUTOR = {
-    "windows": "subprocess.getoutput('powershell.exe {}'.format(command))",
-    "linux": "{}"
-}
 
 class ChecksDependencies:
 
@@ -32,11 +29,10 @@ class ChecksDependencies:
         self.git = GitUser(path)
         self.path_git = self.git.clone()
 
-
     def start(self):
         self.loadReports()
         print(self.getReport())
-        #self.git.remove(self.path_git)
+        # self.git.remove(self.path_git)
 
     def loadReports(self):
         self.report.loadReports(self.getDependeciesJson())
@@ -53,9 +49,12 @@ class ChecksDependencies:
     def getDependeciesJson(self):
         osName = self.getOsName()
         command = COMMAND[osName][self.projectType].format(self.path_git)
-        return eval(EXECUTOR[osName].format(command))
-        #return subprocess.getoutput('powershell.exe {}'.format(command))
-
+        if osName == "windows":
+            return subprocess.getoutput('powershell.exe {}'.format(command))
+        elif osName == "Linux":
+            return self.bashCommand(command)
+        return None
+        # return subprocess.getoutput('powershell.exe {}'.format(command))
 
     def getInfoProject(self):
         return self.infoProject
@@ -83,3 +82,8 @@ class ChecksDependencies:
             return self.infoProject['dependencies']
         except ValueError:
             return False
+
+    def bashCommand(self, str_):
+        process = subprocess.Popen(str_, stdout=subprocess.PIPE, shell=True)
+        output, _ = process.communicate()
+        return output.decode('UTF-8')

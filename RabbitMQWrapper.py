@@ -25,5 +25,4 @@ class RabbitMQWrapper:
                 self.send(queue='alert', durable=True, body=json.dumps(check.getReport()), routing_key='alert')  # Envoie le rapport dans la queue alert
 
         self.channel = self.connection.channel()
-        self.channel.basic_consume(
-            queue=queue, on_message_callback=callback, auto_ack=True)
+        self.channel.basic_consume(queue=queue, on_message_callback=callback, auto_ack=True)

@@ -23,27 +23,28 @@ class Report:
         self.reports = {}
 
     def loadReports(self, listDependencies):
-        rep = json.loads(listDependencies)
-        for package in rep:
-            name = str
-            if str(package).startswith("@vue"):
-                name = str(package).split('/')[1]
-            else:
-                name = package
+        if listDependencies is not None:
+            rep = json.loads(listDependencies)
+            for package in rep:
+                name = str
+                if str(package).startswith("@vue"):
+                    name = str(package).split('/')[1]
+                else:
+                    name = package
 
-            packageVersion = rep[package]['wanted']
-            lastVersion = rep[package]['latest']
-            packageType = rep[package]['type']
-            url = "https://www.npmjs.com/package/{}".format(name)
-            outdated = self.isOutdated(packageVersion, lastVersion)
+                packageVersion = rep[package]['wanted']
+                lastVersion = rep[package]['latest']
+                packageType = rep[package]['type']
+                url = "https://www.npmjs.com/package/{}".format(name)
+                outdated = self.isOutdated(packageVersion, lastVersion)
 
-            self.reports[name] = {
-                "packageVersion": packageVersion,
-                "lastVersion": lastVersion,
-                "url": url,
-                "outdated": outdated,
-                "packageType": packageType
-            }
+                self.reports[name] = {
+                    "packageVersion": packageVersion,
+                    "lastVersion": lastVersion,
+                    "url": url,
+                    "outdated": outdated,
+                    "packageType": packageType
+                }
 
     def isOutdated(self, actualVersion, lastVersion):
         tabActualVersion = str(actualVersion).split('.')
