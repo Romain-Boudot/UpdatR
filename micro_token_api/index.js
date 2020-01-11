@@ -9,7 +9,7 @@ const rabbitMq = require('./rabbitMq')
 
 var app = express();
 
-rabbitMq.init();
+const REDIRECTION_URL = 'https://app.updatr.tech/login/';
 
 var server = app.listen(3000, function () {
   var host = server.address().address;
@@ -41,13 +41,17 @@ app.use(keycloak.middleware({
 }));
 
 app.get('/auth/login', keycloak.protect(), function (req, res) {
-  
-  printJson(res, dispathNewToken(JSON.parse(req.session['keycloak-token']), null, 4));
+  redirectToLoginRoute(res, dispathNewToken(JSON.parse(req.session['keycloak-token']), null, 4));
 });
 
 app.get('/api*', function (req, res) {
   printJson(res, apiAuth.setApi(req))
 });
+
+function redirectToLoginRoute(res, obj) {
+  res.write('<script>window.location.href = "' + REDIRECTION_URL + obj.access_token + '";</script>');
+  res.end();
+}
 
 function printJson(res, obj) {
   res.setHeader('Content-Type', 'application/json');
