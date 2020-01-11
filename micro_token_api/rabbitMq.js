@@ -1,16 +1,11 @@
 const RABBIT = {
-  'URL': 'amqp://localhost',
-  'QUEUE': 'NEW_CONNECTION'
+  'URL': 'amqp://guest:Romain01@app.updatr.tech',
+  'QUEUE': 'url_git'
 }
 const that = this;
 var amqp = require('amqplib/callback_api');
-var channel = null;
 
-function setChannel(channel) {
-    that.channel = channel;
-}
-
-exports.init = function () {
+function send(msg) {
   amqp.connect(RABBIT['URL'], function(error0, connection) {
     if (error0) {
       throw error0;
@@ -19,11 +14,17 @@ exports.init = function () {
       if (error1) {
         throw error1;
       }
-      setChannel(channel);
+
+      channel.assertQueue(RABBIT['QUEUE'], {
+        durable: false
+      });
+
+      channel.sendToQueue(RABBIT['QUEUE'], Buffer.from(msg));
+      console.log(" Sent %s", 'TEST');
     });
   });
 }
 
 exports.sendMessageToQueue = function (msg) {
-  that.channel.sendToQueue(RABBIT['QUEUE'], Buffer.from(msg));
+  send(msg);
 }
