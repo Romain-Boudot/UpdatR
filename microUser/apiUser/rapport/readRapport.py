@@ -16,6 +16,7 @@ class ReadRapport:
         def callback(ch, method, properties, body):
             rapport = Rapport()
             rapport.content = body
+            rapport.rapport
             rapport.save()
 
         self.channel = self.connection.channel()

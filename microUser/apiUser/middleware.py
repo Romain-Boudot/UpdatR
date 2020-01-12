@@ -22,7 +22,7 @@ class Middleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        if not request.path.startswith('api'):
+        if not request.path.startswith('/repos'):
             return response
 
         return tokenAnalyse(request, response, self)

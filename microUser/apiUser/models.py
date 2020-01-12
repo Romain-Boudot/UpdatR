@@ -20,6 +20,6 @@ class RapportInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Rapport(models.Model):
-    dateRapport = models.DateField(null=True)
+    dateRapport = models.DateField(null=True, auto_now_add=True)
     content = models.TextField()
-    rapport = models.ForeignKey(RapportInfo, on_delete=models.CASCADE, null=True)
+    rapportInfo = models.ForeignKey(RapportInfo, on_delete=models.CASCADE, null=True)
