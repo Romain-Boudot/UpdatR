@@ -44,7 +44,7 @@ class FrequenceListSet(viewsets.ModelViewSet):
 class RapportInfoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RapportInfo
-        fields = ['id', 'repo_link', 'repo_name', 'frequence', 'Discord_alert', 'Slack_alert', 'user']
+        fields = ['id', 'repo_link', 'repo_name', 'frequence', 'Discord_alert', 'Slack_alert']
 
 class RapportInfoSet(viewsets.ModelViewSet):
     queryset = RapportInfo.objects.all()
@@ -55,6 +55,7 @@ class RapportInfoSet(viewsets.ModelViewSet):
         data = {}
         try:
             queryset = RapportInfo.objects.filter(user=User.objects.get(libelle_git=username))
+            test = queryset[0]
             serializer = RapportInfoSerializer(queryset, many=True)
             data = serializer.data
         except:
