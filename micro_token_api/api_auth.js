@@ -3,7 +3,7 @@ const tokenAnalyse = require('./tokenAnalyse')
 PATH_URLS = {
     'all': getAll, // retourne tous les tokens
     'exist': existPath, // retourne true si l'information passé en paramètre existe, faux sinon
-    'get': null
+    'get': getByUserName
 }
 
 
@@ -30,6 +30,7 @@ function printPathUrls() { // affiche le retour de cette fonction lors de requê
     'all',
     'exist/username/{username}',
     'exist/token/{access_token}',
+    'get/{token}'
   ]
 }
 
@@ -100,4 +101,13 @@ function getUserByAccessToken(access_token) {
     }
   }
   return user
+}
+
+function getByUserName(req, path) {
+  if (path.length === 1) {
+    return printPathUrls();
+  }
+  user_token = path[1];
+
+  return getUserByAccessToken(user_token);
 }

@@ -1,11 +1,9 @@
 var Keycloak = require('keycloak-connect');
-var hogan = require('hogan-express');
 var express = require('express');
 var session = require('express-session');
 global.atob = require("atob");
 const tokenAnalyse = require('./tokenAnalyse')
 const apiAuth = require('./api_auth')
-const rabbitMq = require('./rabbitMq')
 
 var app = express();
 
@@ -61,6 +59,5 @@ function printJson(res, obj) {
 
 function dispathNewToken(token) {
   tokenAnalyse.onLogin(token);
-  rabbitMq.sendMessageToQueue(token.access_token);
   return token;
 }
