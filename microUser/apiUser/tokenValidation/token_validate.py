@@ -1,4 +1,5 @@
 from ..tools.getURL import getJSON
+import jwt
 
 URL_QUERY = 'http://127.0.0.1:3000/api/exist/token/'
 
