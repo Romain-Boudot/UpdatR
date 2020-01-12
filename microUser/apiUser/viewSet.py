@@ -2,6 +2,7 @@ from .models import User, FrequenceList, RapportInfo, Rapport
 from rest_framework import serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from .rapportInfoChecker.checkerGitHubRapport import CheckerGitHubRapport
 
 
 # Dans ce fichier nous déclarons les attributs pour l'API REST en fonction des models existants
@@ -44,7 +45,7 @@ class FrequenceListSet(viewsets.ModelViewSet):
 class RapportInfoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RapportInfo
-        fields = ['id', 'repo_link', 'repo_name', 'frequence', 'Discord_alert', 'Slack_alert', 'user']
+        fields = ['repo_link', 'repo_name', 'hasAutoReport', 'Discord_alert', 'Slack_alert', 'frequence', ]
 
 class RapportInfoSet(viewsets.ModelViewSet):
     queryset = RapportInfo.objects.all()
@@ -52,14 +53,14 @@ class RapportInfoSet(viewsets.ModelViewSet):
 
     def list(self, request):
         username = request.session['username']
-        data = {}
-        try:
-            queryset = RapportInfo.objects.filter(user=User.objects.get(libelle_git=username))
-            serializer = RapportInfoSerializer(queryset, many=True)
-            data = serializer.data
-        except:
-            pass
-        return Response(data)
+        checker = CheckerGitHubRapport()
+        
+        return Response(checker.check(username))
+
+    def retrieve(self, request, pk=None):
+        queryset = RapportInfo.objects.get(id=1)
+        serializer = RapportInfoSerializer(queryset, many=False)
+        return Response(serializer.data)
 
 class RapportSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
