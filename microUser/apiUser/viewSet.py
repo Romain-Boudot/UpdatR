@@ -2,6 +2,7 @@ from .models import User, FrequenceList, RapportInfo, Rapport
 from rest_framework import serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from .rapportInfoChecker.checkerGitHubRapport import CheckerGitHubRapport
 
 
 # Dans ce fichier nous déclarons les attributs pour l'API REST en fonction des models existants
@@ -52,14 +53,9 @@ class RapportInfoSet(viewsets.ModelViewSet):
 
     def list(self, request):
         username = request.session['username']
-        data = {}
-        try:
-            queryset = RapportInfo.objects.filter(user=User.objects.get(libelle_git=username))
-            serializer = RapportInfoSerializer(queryset, many=True)
-            data = serializer.data
-        except:
-            pass
-        return Response(data)
+        checker = CheckerGitHubRapport()
+        
+        return Response(checker.check(username))
 
     def retrieve(self, request, pk=None):
         queryset = RapportInfo.objects.get(id=1)
