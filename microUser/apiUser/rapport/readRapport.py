@@ -2,23 +2,32 @@ import pika
 import json
 from ..models import Rapport
 
-class ReadRapport:
-    def __init__(self, url):
-        self.connection = pika.BlockingConnection(pika.connection.URLParameters(url=url))
-        self.channel = None
+RABBIT = {
+    'URL': 'amqp://guest:Romain01@app.updatr.tech',
+    'QUEUE_LISTEN': 'rapport',
+    'QUEUE_EMIT': 'url_git'
+}
 
-    def send(self, queue, durable, body, routing_key):
-        self.channel = self.connection.channel()
-        self.channel.queue_declare(queue=queue, durable=durable)
+class ReadRapport:
+    def __init__(self):
+        self.connection = pika.BlockingConnection(pika.connection.URLParameters(url=RABBIT['URL']))
+        channel = self.connection.channel()
+        channel.queue_declare(queue=RABBIT['QUEUE_EMIT'])
+        channel.basic_consume(queue=RABBIT['QUEUE_LISTEN'],
+                      auto_ack=True,
+                      on_message_callback=self.callback)
+        self.channel = channel
+
+    def send(self, queue, body, routing_key=''):
         self.channel.basic_publish(body=body, exchange='', routing_key=routing_key)
 
-    def listen(self, queue):
-        def callback(ch, method, properties, body):
-            rapport = Rapport()
-            rapport.content = body
-            rapport.rapport
-            rapport.save()
+    def callback(self, ch, method, properties, body):
+        rapport = Rapport()
+        rapport.content = body
+        rapport.save()
 
-        self.channel = self.connection.channel()
-        self.channel.basic_consume(
-            queue=queue, on_message_callback=callback, auto_ack=True)
+instance = None
+def setReadRapport(inst):
+    global instance
+    instance = inst
+

@@ -24,7 +24,6 @@ class CheckerGitHubRapport:
             orderedDicts.append(collections.OrderedDict(d))
         return orderedDicts
 
-
     def orderRapports(self, rapportInfos, githubRepos):
         datas = []
         for repos in githubRepos:
