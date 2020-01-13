@@ -41,8 +41,8 @@ class Report:
                 self.reports[name] = {
                     "packageVersion": packageVersion,
                     "lastVersion": lastVersion,
-                    "url": url,
                     "outdated": outdated,
+                    "url": url,
                     "packageType": packageType
                 }
 

@@ -15,7 +15,7 @@ class GitUser:
     def clone(self):
         os.chdir("./repos")
         os.system("git clone {}".format(self.url))
-        return "{}".format(self.name)
+        return "../repos/{}".format(self.name)
 
     def remove(self, path):
         shutil.rmtree(path, ignore_errors=True)
