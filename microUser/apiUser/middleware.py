@@ -13,7 +13,7 @@ RABBIT = {
 class Middleware:
     def __init__(self, get_response):
         self.get_response = get_response
-        self.setQueueListener()
+        # self.setQueueListener()
     
     def setQueueListener(self):
         rapport = ReadRapport(RABBIT['URL'])
