@@ -3,7 +3,7 @@ from rest_framework import serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .rapportInfoChecker.checkerGitHubRapport import CheckerGitHubRapport
-import pika
+from .rapport.readRapport import getReadRapport
 
 # Dans ce fichier nous déclarons les attributs pour l'API REST en fonction des models existants
 
@@ -45,7 +45,7 @@ class FrequenceListSet(viewsets.ModelViewSet):
 class RapportInfoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RapportInfo
-        fields = ['repo_link', 'repo_name', 'hasAutoReport', 'Discord_alert', 'Slack_alert', 'frequence', ]
+        fields = ['id', 'repo_link', 'repo_name', 'hasAutoReport', 'Discord_alert', 'Slack_alert', 'frequence', ]
 
 class RapportInfoSet(viewsets.ModelViewSet):
     queryset = RapportInfo.objects.all()
@@ -65,7 +65,7 @@ class RapportInfoSet(viewsets.ModelViewSet):
 class RapportSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Rapport
-        fields = ['id', 'dateRapport', 'content']
+        fields = ['id', 'dateRapport', 'content', 'rapportInfo']
 
 class RapportSet(viewsets.ModelViewSet):
     queryset = Rapport.objects.all()
@@ -73,9 +73,15 @@ class RapportSet(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = Rapport.objects.all()
-        serializer = RapportSerializer(queryset, many=True)
+        serializer = RapportSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
     def create(self, request):
-        print('test')
+        id = request.data['rapportInfo']
+        try:
+            rapportInfo = RapportInfo.objects.get(id=id)
+            readRapport = getReadRapport()
+            readRapport.send(rapportInfo.repo_link)
+        except:
+            pass
         return Response()
