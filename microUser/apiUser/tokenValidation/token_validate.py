@@ -3,18 +3,26 @@ import jwt
 
 URL_QUERY = 'http://127.0.0.1:3000/api/exist/token/'
 
-HEADER_TOKEN = 'Token-User'
+TOKEN = {
+    'HEADER': 'Token-User',
+    'GET': 'token'
+}
 
 USER_DATA_URL = 'http://127.0.0.1:3000/api/get/'
 
 def tokenAnalyse(request, response, middleware):
     headers = request.headers
-    if not HEADER_TOKEN in headers.keys():
+    params = request.GET
+    if not TOKEN['HEADER'] in headers.keys() and "'" + TOKEN['GET'] + "'" in params:
         return middleware.throwError('no token in header (specify by \'Token-User\' attribute in header)')
+    
+    token = None
+    if TOKEN['HEADER'] in headers.keys():
+        token = headers[TOKEN['HEADER']]
+    else:
+        token = params.get(TOKEN['GET'])
 
-    token = headers[HEADER_TOKEN]
-
-    if not isToken_valid(token):
+    if token == None or not isToken_valid(token):
         return middleware.throwError('Token invalid') # si le token n'est pas valide, nous envoyons une erreur
     
     user_data = getJSON(USER_DATA_URL + token)

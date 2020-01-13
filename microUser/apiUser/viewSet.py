@@ -3,7 +3,7 @@ from rest_framework import serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .rapportInfoChecker.checkerGitHubRapport import CheckerGitHubRapport
-
+import pika
 
 # Dans ce fichier nous déclarons les attributs pour l'API REST en fonction des models existants
 
@@ -15,10 +15,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class UserViewSet(viewsets.ViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    
+
     def list(self, request):
         username = request.session['username']
-        data = {}
+        data = []
         try:
             queryset = User.objects.get(libelle_git=username)
             serializer = UserSerializer(queryset, many=False)
@@ -54,7 +54,7 @@ class RapportInfoSet(viewsets.ModelViewSet):
     def list(self, request):
         username = request.session['username']
         checker = CheckerGitHubRapport()
-        
+
         return Response(checker.check(username))
 
     def retrieve(self, request, pk=None):
@@ -65,7 +65,7 @@ class RapportInfoSet(viewsets.ModelViewSet):
 class RapportSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Rapport
-        fields = ['id', 'dateRapport', 'rapport', 'content']
+        fields = ['id', 'dateRapport', 'content']
 
 class RapportSet(viewsets.ModelViewSet):
     queryset = Rapport.objects.all()
@@ -76,3 +76,6 @@ class RapportSet(viewsets.ModelViewSet):
         serializer = RapportSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    def create(self, request):
+        print('test')
+        return Response()
