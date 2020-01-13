@@ -15,12 +15,17 @@ class Middleware:
         setReadRapport(rapport)
 
     def __call__(self, request):
-        response = self.get_response(request)
-
         if not request.path.startswith('/repos'):
-            return response
+            return self.get_response(request)
 
-        return tokenAnalyse(request, response, self)
+        result = tokenAnalyse(request, self)
+        if result != None: # analyse le token et envoie une erreur s'il y a une invalidité
+            return self.throwError(result)
+
+        return self.get_response(request)
+
+
+        
     
     def throwError(self, error):
         return HttpResponse("{\"error\": \"" + error.replace('"', '\"') + "\"}", content_type="application/json")

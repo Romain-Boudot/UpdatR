@@ -2,6 +2,7 @@ from .models import User, FrequenceList, RapportInfo, Rapport
 from rest_framework import serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.http import HttpResponse
 from .rapportInfoChecker.checkerGitHubRapport import CheckerGitHubRapport
 from .rapport.readRapport import getReadRapport
 
@@ -81,7 +82,7 @@ class RapportSet(viewsets.ModelViewSet):
         try:
             rapportInfo = RapportInfo.objects.get(id=id)
             readRapport = getReadRapport()
-            readRapport.send(rapportInfo.repo_link)
+            # readRapport.send(rapportInfo.repo_link)
         except:
             pass
-        return Response()
+        return HttpResponse('test')
