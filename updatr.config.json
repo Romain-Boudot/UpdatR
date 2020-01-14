@@ -19,5 +19,18 @@
     "cwd": "/var/UpdatR/microUser",
     "interpreter": "python3",
     "autorestart": true
+  },
+  {
+    "name": "keycloack",
+    "cmd": "standalone.sh",
+    "cwd": "/var/keycloack/keycloak-8.0.0/bin",
+    "interpreter": "sh",
+    "autorestart": true
+  },
+  {
+    "name": "AlertService",
+    "script": "run.js",
+    "cwd": "/var/UpdatR/AlertService/",
+    "autorestart": true
   }
 ]
