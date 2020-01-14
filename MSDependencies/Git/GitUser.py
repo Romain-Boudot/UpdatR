@@ -2,6 +2,7 @@
 import os
 import shutil
 
+
 class GitUser:
 
     def __init__(self, url):
@@ -14,9 +15,8 @@ class GitUser:
         return str(tab[len(tab)-1]).replace(".git", "")
 
     def clone(self):
-        os.chdir("./repos")
         os.system("git clone {}".format(self.url))
-        self.path = "../repos/{}".format(self.name)
+        self.path = "{}".format(self.name)
         return self.path
 
     def remove(self, path):

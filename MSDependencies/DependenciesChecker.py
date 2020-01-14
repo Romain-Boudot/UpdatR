@@ -3,8 +3,10 @@
 
 from RabbitMQWrapper import RabbitMQWrapper
 from ReportHandler.ChecksDependencies import ChecksDependencies
+import os
 
 if __name__ == "__main__":
+    os.chdir("./repos")
     while True:
         url = "amqp://guest:Romain01@app.updatr.tech"
         rabbit = RabbitMQWrapper(url=url) #Instanciation pour lire les queues
