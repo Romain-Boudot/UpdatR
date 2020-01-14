@@ -7,6 +7,7 @@ class GitUser:
     def __init__(self, url):
         self.url = url
         self.name = self.getNameProject()
+        self.path = None
 
     def getNameProject(self):
         tab = str(self.url).split("/")
@@ -15,7 +16,8 @@ class GitUser:
     def clone(self):
         os.chdir("./repos")
         os.system("git clone {}".format(self.url))
-        return "../repos/{}".format(self.name)
+        self.path = "../repos/{}".format(self.name)
+        return self.path
 
     def remove(self, path):
         shutil.rmtree(path, ignore_errors=True)
