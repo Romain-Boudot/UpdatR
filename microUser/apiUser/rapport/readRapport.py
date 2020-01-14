@@ -29,15 +29,10 @@ class ReadRapport:
         route = RABBIT['QUEUE_EMIT']
         js = json.dumps(body)
         self.sendData(js, route)
-        
-        
+
     def sendData(self, js, route):
-        if self.channel.is_closed:
-            self.connection.close()
-            self.initChannel()
         self.channel.basic_publish(exchange='', routing_key=route, body=js)
         self.channel.start_consuming()
-
 
     def callback(self, ch, method, properties, body):
         try:
@@ -53,6 +48,7 @@ class ReadRapport:
             pass
         finally:
             self.channel.stop_consuming()
+            self.initChannel()
     
     def getRapportInfoById(self, repo_link):
         try:
