@@ -10,6 +10,11 @@ RABBIT = {
 
 class ReadRapport:
     def __init__(self):
+        self.connection = None
+        self.channel = None
+        self.initChannel()
+        
+    def initChannel(self):
         self.connection = pika.BlockingConnection(pika.connection.URLParameters(url=RABBIT['URL']))
         channel = self.connection.channel()
 
@@ -20,9 +25,15 @@ class ReadRapport:
                       on_message_callback=self.callback)
         self.channel = channel
 
-    def send(self, body, routing_key=''):
+    def send(self, body):
         route = RABBIT['QUEUE_EMIT']
         js = json.dumps(body)
+        self.sendData(js, route)
+        
+        
+    def sendData(self, js, route):
+        if self.channel.is_closed:
+            self.initChannel()
         self.channel.basic_publish(exchange='', routing_key=route, body=js)
         self.channel.start_consuming()
 
