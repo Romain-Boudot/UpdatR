@@ -8,10 +8,6 @@
               <router-link class="link" v-bind:to="btoa(repo.repo_link)">{{ repo.repo_name }}</router-link>
               <a target="_blank" class="badge badge-secondary little ml-2" v-bind:href="repo.repo_link">github</a>
             </div>
-            <!-- <div class="d-flex" v-if="isExpended">
-              <div class="pr-2 pl-2 pt-1 pb-1 rounded ml-1 mr-1 border" v-bind:class="repo.Discord_alert ? 'border-success' : 'border-danger'">Discord</div>
-              <div class="pr-2 pl-2 pt-1 pb-1 rounded ml-1 mr-1 border" v-bind:class="repo.Slack_alert ? 'border-success' : 'border-danger'">Slack</div>
-            </div> -->
           </li>
         </ul>
       </div>
@@ -106,6 +102,7 @@ export default {
   flex: 1;
   .side-nav {
     position: absolute;
+    z-index: 10000;
     display: flex;
     justify-content: center;
     width: calc(100%);
@@ -121,13 +118,11 @@ export default {
   .side-nav.sided {
     width: calc(300px);
   }
-  
   .list-container ul li {
     display: flex;
     >* { flex: 1 }
     >*:nth-child(1) { flex: 2 !important }
   }
-
   .details {
     width: 100%;
     padding-left: calc(300px + 3rem) !important;

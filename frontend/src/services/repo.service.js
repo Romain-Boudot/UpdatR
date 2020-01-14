@@ -10,8 +10,6 @@ export class repoService {
     return this._service
   }
 
-  _base
-
   constructor() {
     this._api = apiService.getService()
   }

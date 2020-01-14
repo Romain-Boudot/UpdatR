@@ -1,5 +1,35 @@
 import wretch from 'wretch'
 
+const RAPPORT = {
+  "discord.js":  {
+    "packageVersion": "v0.0.0",
+    "lastVersion": "v0.0.1",
+    "url": "...",
+    "doc": "..",
+    "packageType": "...",
+    "homepage": "...",
+    "outdated": true
+  },
+  "ahhhhhhhhhh":  {
+    "packageVersion": "v0.0.2",
+    "lastVersion": "v0.0.3",
+    "url": "...",
+    "doc": "..",
+    "packageType": "...",
+    "homepage": "...",
+    "outdated": true
+  },
+  "non":  {
+    "packageVersion": "v0.0.2",
+    "lastVersion": "v0.0.3",
+    "url": "...",
+    "doc": "..",
+    "packageType": "...",
+    "homepage": "...",
+    "outdated": false
+  }
+}
+
 export class apiService {
 
   static _service
@@ -45,7 +75,7 @@ export class apiService {
   }
 
   getRapports(repo) {
-    if (repo.repo_name === "oui") {
+    if (repo.repo_name === "oui")
       return Promise.resolve([
         {
           "non":  {
@@ -57,39 +87,15 @@ export class apiService {
             "homepage": "...",
             "outdated": false
           }
-        }
+        }, RAPPORT
       ])
-    }
+    if (repo.repo_name === "non")
+      return Promise.resolve([
+        RAPPORT,
+        RAPPORT
+      ])
     return Promise.resolve([
-      {
-        "discord.js":  {
-          "packageVersion": "v0.0.0",
-          "lastVersion": "v0.0.1",
-          "url": "...",
-          "doc": "..",
-          "packageType": "...",
-          "homepage": "...",
-          "outdated": true
-        },
-        "ahhhhhhhhhh":  {
-          "packageVersion": "v0.0.2",
-          "lastVersion": "v0.0.3",
-          "url": "...",
-          "doc": "..",
-          "packageType": "...",
-          "homepage": "...",
-          "outdated": true
-        },
-        "non":  {
-          "packageVersion": "v0.0.2",
-          "lastVersion": "v0.0.3",
-          "url": "...",
-          "doc": "..",
-          "packageType": "...",
-          "homepage": "...",
-          "outdated": false
-        }
-      }
+      RAPPORT
     ])
   }
 
