@@ -9,7 +9,6 @@ class Middleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.setQueueListener()
-        print('test')
     
     def setQueueListener(self):
         rapport = ReadRapport()
