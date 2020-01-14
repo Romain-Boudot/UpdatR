@@ -1,5 +1,6 @@
 import pika
 import json
+import os
 from ReportHandler.ChecksDependencies import ChecksDependencies
 
 class RabbitMQWrapper:
@@ -24,7 +25,8 @@ class RabbitMQWrapper:
             resp["report"] = check.getReport()
             print(resp["report"])
             if check.report.hasOutdatedPackage():
-                self.send(queue='alert', durable=True, body=json.dumps(check.getReport()), routing_key='alert')  # Envoie le rapport dans la queue alert
+                self.send(queue='rapport', durable=True, body=json.dumps(check.getReport()), routing_key='rapport')  # Envoie le rapport dans la queue alert
+                os.system("rm -r {}".format(check.report.git.path))
 
         self.channel = self.connection.channel()
         self.channel.basic_consume(queue=queue, on_message_callback=callback, auto_ack=True)
