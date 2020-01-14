@@ -16,7 +16,7 @@
     "name": "MicroUser",
     "cmd": "manage.py runserver",
     "cwd": "/var/UpdatR/microUser",
-    "interpreter": "python3",
+    // "interpreter": "python3",
     "autorestart": true
   },
   {
