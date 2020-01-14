@@ -79,10 +79,16 @@ class RapportSet(viewsets.ModelViewSet):
 
     def create(self, request):
         id = request.data['rapportInfo']
+        state = '{"state": "success"}'
         try:
             rapportInfo = RapportInfo.objects.get(id=id)
             readRapport = getReadRapport()
-            # readRapport.send(rapportInfo.repo_link)
+            content = {
+                'id': rapportInfo.id,
+                'git_url': rapportInfo.repo_link
+            }
+            
+            readRapport.send(content)
         except:
-            pass
-        return HttpResponse('test')
+            state = '{"state": "failed"}'
+        return HttpResponse(state, content_type="application/json")
