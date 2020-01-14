@@ -6,7 +6,7 @@ module.exports = {
     autorestart: false,
     watch: true,
     pid: '/path/to/pid/file.pid',
-    instances: 4,
+    instances: 1,
     max_memory_restart: '1G',
     env: {
       ENV: 'development'
