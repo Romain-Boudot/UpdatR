@@ -89,6 +89,6 @@ class RapportSet(viewsets.ModelViewSet):
             }
             
             readRapport.send(content)
-        except:
+        except ValueError:
             state = '{"state": "failed"}'
         return HttpResponse(state, content_type="application/json")
