@@ -1,0 +1,23 @@
+[
+  {
+    "name": "CheckDependencies",
+    "cmd": "DependenciesChecker.py",
+    "cwd": "/var/UpdatR/MSDependencies",
+    "interpreter": "python3",
+    "autorestart": true
+  },
+  {
+    "name": "MicroTokenApi",
+    "cmd": "index.js",
+    "cwd": "/var/UpdatR/micro_token_api",
+    "interpreter": "node",
+    "autorestart": true
+  },
+  {
+    "name": "MicroUser",
+    "cmd": "manage.py runserver",
+    "cwd": "/var/UpdatR/microUser",
+    "interpreter": "python3",
+    "autorestart": true
+  }
+]
