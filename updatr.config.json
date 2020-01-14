@@ -8,9 +8,8 @@
   },
   {
     "name": "MicroTokenApi",
-    "cmd": "index.js",
+    "script": "index.js",
     "cwd": "/var/UpdatR/micro_token_api",
-    "interpreter": "node",
     "autorestart": true
   },
   {
