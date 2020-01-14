@@ -5,7 +5,7 @@ from ..models import Rapport
 RABBIT = {
     'URL': 'amqp://guest:Romain01@app.updatr.tech',
     'QUEUE_LISTEN': 'url_git',
-    'QUEUE_EMIT': 'url_git'
+    'QUEUE_EMIT': 'rapport'
 }
 
 class ReadRapport:

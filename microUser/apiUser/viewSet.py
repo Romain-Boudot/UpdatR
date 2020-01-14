@@ -82,7 +82,8 @@ class RapportSet(viewsets.ModelViewSet):
         try:
             rapportInfo = RapportInfo.objects.get(id=id)
             readRapport = getReadRapport()
-            # readRapport.send(rapportInfo.repo_link)
+            content = '{"id": ' + rapportInfo.id +', "url_git": ' + rapportInfo.repo_link + '}'
+            readRapport.send(content)
         except:
             pass
         return HttpResponse('test')
