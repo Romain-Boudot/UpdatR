@@ -14,7 +14,7 @@
   },
   {
     "name": "MicroUser",
-    "cmd": "manage.py runserver",
+    "cmd": "manage.py",
     "args": "runserver",
     "cwd": "/var/UpdatR/microUser",
     "interpreter": "python3",
