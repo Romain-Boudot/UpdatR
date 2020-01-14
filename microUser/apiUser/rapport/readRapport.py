@@ -33,6 +33,7 @@ class ReadRapport:
         
     def sendData(self, js, route):
         if self.channel.is_closed:
+            self.connection.close()
             self.initChannel()
         self.channel.basic_publish(exchange='', routing_key=route, body=js)
         self.channel.start_consuming()
