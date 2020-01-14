@@ -1,6 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/python37
 # -*- coding: utf-8 -*-
-"""Django's command-line utility for administrative tasks."""
+
+# Django's command-line utility for administrative tasks.
 import os
 import sys
 
