@@ -107,7 +107,7 @@ class RapportSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, pk=None):
         # id = request.data['rapportInfo']
-        repo_link = pk
+        repo_link = request.data['repo_link']
         print('pk : ' + pk)
         username = request.session['username']
         checker = CheckerGitHubRapport()
