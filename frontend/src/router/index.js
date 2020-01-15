@@ -28,8 +28,8 @@ router.beforeEach((to, from, next) => {
     next('/');
   }
   if (to.name === 'token') {
+    console.log(to.params.token)
     auth.setToken(from.params.token)
-    console.log(auth.token)
     next('/');
   }
   next();
