@@ -31,13 +31,13 @@ def tokenAnalyse(request, middleware):
         # return middleware.throwError('Token invalid') # si le token n'est pas valide, nous envoyons une erreur
     
     user_data = getJSON(USER_DATA_URL + token)
+    print("------------------ user data ------------------")
+    print(user_data)
+    print("------------------ user data ------------------")
     if not user_data['valid']:
         return 'Token invalid'
         # return middleware.throwError(user_data['error'])
 
-    print("------------------ user data ------------------")
-    print(user_data)
-    print("------------------ user data ------------------")
     username = user_data['username']
     session = request.session
     session['username'] = username
