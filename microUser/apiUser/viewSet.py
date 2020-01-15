@@ -152,11 +152,12 @@ class RapportSet(viewsets.ModelViewSet):
         if not admin:
             print('not admin 2')
             return self.sendRapport(request)
-
+        print('---------------- admin ----------------')
         repo_link = request.data['git_url']
+        print(repo_link)
         data = request.data['rapportInfo']
+        print(data)
         rapport = Rapport()
         rapport.content = data
-        print(data)
         rapport.rapportInfo = RapportInfo.objects.get(repo_link=repo_link)
         rapport.save()
