@@ -96,7 +96,7 @@ class RapportSet(viewsets.ModelViewSet):
         if not rapportInfo:
             return HttpResponse('[]', content_type="application/json")
 
-        queryset = Rapport.objects.get(rapportInfo=rapportInfo)
+        queryset = Rapport.objects.filter(rapportInfo=rapportInfo)
         serializer = RapportSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
