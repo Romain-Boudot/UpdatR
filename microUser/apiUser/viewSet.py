@@ -105,11 +105,11 @@ class RapportSet(viewsets.ModelViewSet):
         serializer = RapportSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
-    def update(self, instance, request):
+    def update(self, instance, request, pk=None):
         # id = request.data['rapportInfo']
         print(request.data)
         repo_link = request.data['repo_link']
-        # print('pk : ' + pk)
+        print('pk : ' + pk)
         username = request.session['username']
         checker = CheckerGitHubRapport()
         rapportInfos = checker.check(username)
@@ -123,8 +123,10 @@ class RapportSet(viewsets.ModelViewSet):
             RapportModel.hasAutoReport = True
             RapportModel.repo_link = rapportInfo['repo_link']
             RapportModel.repo_name = rapportInfo['repo_name']
-            RapportModel.Discord_alert = request.data['Discord_alert']
-            RapportModel.Slack_alert = request.data['Slack_alert']
+            if 'Discord_alert' in  request.data:
+                RapportModel.Discord_alert = request.data['Discord_alert']
+            if 'Slack_alert' in  request.data:
+                RapportModel.Slack_alert = request.data['Slack_alert']
             RapportModel.save()
 
         state = '{"state": "success"}'
