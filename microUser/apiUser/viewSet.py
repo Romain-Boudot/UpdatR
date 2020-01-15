@@ -105,10 +105,11 @@ class RapportSet(viewsets.ModelViewSet):
         serializer = RapportSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
-    def update(self, request, pk=None):
+    def update(self, instance, request):
         # id = request.data['rapportInfo']
+        print(request.data)
         repo_link = request.data['repo_link']
-        print('pk : ' + pk)
+        # print('pk : ' + pk)
         username = request.session['username']
         checker = CheckerGitHubRapport()
         rapportInfos = checker.check(username)
