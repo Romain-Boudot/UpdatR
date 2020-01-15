@@ -21,9 +21,9 @@ app.get('/auth/callback', function(req, res) {
       client_id: "a79cafc41411d723ff50",
       client_secret: "d28491002fe5dab1da00763309e83fbd20174bb7",
       code: code
-    }).post().text().then(res => {
-      console.log(res)
-      const token = jwt.sign({ username: '', token: res.access_token }, JWT_SECRET, { expiresIn: '1d' })
+    }).post().json().then(response => {
+      console.log(response)
+      const token = jwt.sign({ username: response.token_type, token: response.access_token }, JWT_SECRET, { expiresIn: '1d' })
       res.redirect('https://app.updatr.tech/login/' + token)
     })
 })
