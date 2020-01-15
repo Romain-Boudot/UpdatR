@@ -1,0 +1,19 @@
+{
+  "name": "authservice",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "form-data": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^2.6.0",
+    "url": "^0.11.0",
+    "wretch": "^1.6.0"
+  }
+}

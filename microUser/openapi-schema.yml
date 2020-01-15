@@ -1,0 +1,675 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /repos/users/:
+    get:
+      operationId: listUsers
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /repos/frequencelist/:
+    get:
+      operationId: listFrequenceLists
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                      readOnly: true
+                    libFrequence:
+                      type: string
+                      maxLength: 50
+                    stateFrequence:
+                      type: string
+                      format: date-time
+                  required:
+                  - libFrequence
+                  - stateFrequence
+          description: ''
+    post:
+      operationId: createFrequenceList
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id001
+              properties:
+                libFrequence:
+                  type: string
+                  maxLength: 50
+                stateFrequence:
+                  type: string
+                  format: date-time
+              required:
+              - libFrequence
+              - stateFrequence
+          application/x-www-form-urlencoded:
+            schema: *id001
+          multipart/form-data:
+            schema: *id001
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  libFrequence:
+                    type: string
+                    maxLength: 50
+                  stateFrequence:
+                    type: string
+                    format: date-time
+                required:
+                - libFrequence
+                - stateFrequence
+          description: ''
+  /repos/frequencelist/{id}/:
+    get:
+      operationId: retrieveFrequenceList
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this frequence list.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  libFrequence:
+                    type: string
+                    maxLength: 50
+                  stateFrequence:
+                    type: string
+                    format: date-time
+                required:
+                - libFrequence
+                - stateFrequence
+          description: ''
+    put:
+      operationId: updateFrequenceList
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this frequence list.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id002
+              properties:
+                libFrequence:
+                  type: string
+                  maxLength: 50
+                stateFrequence:
+                  type: string
+                  format: date-time
+              required:
+              - libFrequence
+              - stateFrequence
+          application/x-www-form-urlencoded:
+            schema: *id002
+          multipart/form-data:
+            schema: *id002
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  libFrequence:
+                    type: string
+                    maxLength: 50
+                  stateFrequence:
+                    type: string
+                    format: date-time
+                required:
+                - libFrequence
+                - stateFrequence
+          description: ''
+    patch:
+      operationId: partial_updateFrequenceList
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this frequence list.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id003
+              properties:
+                libFrequence:
+                  type: string
+                  maxLength: 50
+                stateFrequence:
+                  type: string
+                  format: date-time
+          application/x-www-form-urlencoded:
+            schema: *id003
+          multipart/form-data:
+            schema: *id003
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  libFrequence:
+                    type: string
+                    maxLength: 50
+                  stateFrequence:
+                    type: string
+                    format: date-time
+                required:
+                - libFrequence
+                - stateFrequence
+          description: ''
+    delete:
+      operationId: destroyFrequenceList
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this frequence list.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /repos/rapportinfo/:
+    get:
+      operationId: listRapportInfos
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    repo_link:
+                      type: string
+                      maxLength: 255
+                    repo_name:
+                      type: string
+                      nullable: true
+                      maxLength: 255
+                    hasAutoReport:
+                      type: boolean
+                    Discord_alert:
+                      type: string
+                      maxLength: 255
+                    Slack_alert:
+                      type: string
+                      maxLength: 255
+                    frequence:
+                      type: integer
+                  required:
+                  - repo_link
+                  - frequence
+          description: ''
+    post:
+      operationId: createRapportInfo
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id004
+              properties:
+                repo_link:
+                  type: string
+                  maxLength: 255
+                repo_name:
+                  type: string
+                  nullable: true
+                  maxLength: 255
+                hasAutoReport:
+                  type: boolean
+                Discord_alert:
+                  type: string
+                  maxLength: 255
+                Slack_alert:
+                  type: string
+                  maxLength: 255
+                frequence:
+                  type: integer
+              required:
+              - repo_link
+              - frequence
+          application/x-www-form-urlencoded:
+            schema: *id004
+          multipart/form-data:
+            schema: *id004
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  repo_link:
+                    type: string
+                    maxLength: 255
+                  repo_name:
+                    type: string
+                    nullable: true
+                    maxLength: 255
+                  hasAutoReport:
+                    type: boolean
+                  Discord_alert:
+                    type: string
+                    maxLength: 255
+                  Slack_alert:
+                    type: string
+                    maxLength: 255
+                  frequence:
+                    type: integer
+                required:
+                - repo_link
+                - frequence
+          description: ''
+  /repos/rapportinfo/{id}/:
+    get:
+      operationId: retrieveRapportInfo
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this rapport info.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  repo_link:
+                    type: string
+                    maxLength: 255
+                  repo_name:
+                    type: string
+                    nullable: true
+                    maxLength: 255
+                  hasAutoReport:
+                    type: boolean
+                  Discord_alert:
+                    type: string
+                    maxLength: 255
+                  Slack_alert:
+                    type: string
+                    maxLength: 255
+                  frequence:
+                    type: integer
+                required:
+                - repo_link
+                - frequence
+          description: ''
+    put:
+      operationId: updateRapportInfo
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this rapport info.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id005
+              properties:
+                repo_link:
+                  type: string
+                  maxLength: 255
+                repo_name:
+                  type: string
+                  nullable: true
+                  maxLength: 255
+                hasAutoReport:
+                  type: boolean
+                Discord_alert:
+                  type: string
+                  maxLength: 255
+                Slack_alert:
+                  type: string
+                  maxLength: 255
+                frequence:
+                  type: integer
+              required:
+              - repo_link
+              - frequence
+          application/x-www-form-urlencoded:
+            schema: *id005
+          multipart/form-data:
+            schema: *id005
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  repo_link:
+                    type: string
+                    maxLength: 255
+                  repo_name:
+                    type: string
+                    nullable: true
+                    maxLength: 255
+                  hasAutoReport:
+                    type: boolean
+                  Discord_alert:
+                    type: string
+                    maxLength: 255
+                  Slack_alert:
+                    type: string
+                    maxLength: 255
+                  frequence:
+                    type: integer
+                required:
+                - repo_link
+                - frequence
+          description: ''
+    patch:
+      operationId: partial_updateRapportInfo
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this rapport info.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id006
+              properties:
+                repo_link:
+                  type: string
+                  maxLength: 255
+                repo_name:
+                  type: string
+                  nullable: true
+                  maxLength: 255
+                hasAutoReport:
+                  type: boolean
+                Discord_alert:
+                  type: string
+                  maxLength: 255
+                Slack_alert:
+                  type: string
+                  maxLength: 255
+                frequence:
+                  type: integer
+          application/x-www-form-urlencoded:
+            schema: *id006
+          multipart/form-data:
+            schema: *id006
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  repo_link:
+                    type: string
+                    maxLength: 255
+                  repo_name:
+                    type: string
+                    nullable: true
+                    maxLength: 255
+                  hasAutoReport:
+                    type: boolean
+                  Discord_alert:
+                    type: string
+                    maxLength: 255
+                  Slack_alert:
+                    type: string
+                    maxLength: 255
+                  frequence:
+                    type: integer
+                required:
+                - repo_link
+                - frequence
+          description: ''
+    delete:
+      operationId: destroyRapportInfo
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this rapport info.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /repos/rapport/:
+    get:
+      operationId: listRapports
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                      readOnly: true
+                    dateRapport:
+                      type: string
+                      format: date
+                      readOnly: true
+                    content:
+                      type: string
+                  required:
+                  - content
+          description: ''
+    post:
+      operationId: createRapport
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id007
+              properties:
+                content:
+                  type: string
+              required:
+              - content
+          application/x-www-form-urlencoded:
+            schema: *id007
+          multipart/form-data:
+            schema: *id007
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  dateRapport:
+                    type: string
+                    format: date
+                    readOnly: true
+                  content:
+                    type: string
+                required:
+                - content
+          description: ''
+  /repos/rapport/{id}/:
+    get:
+      operationId: retrieveRapport
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this rapport.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  dateRapport:
+                    type: string
+                    format: date
+                    readOnly: true
+                  content:
+                    type: string
+                required:
+                - content
+          description: ''
+    put:
+      operationId: updateRapport
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this rapport.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id008
+              properties:
+                content:
+                  type: string
+              required:
+              - content
+          application/x-www-form-urlencoded:
+            schema: *id008
+          multipart/form-data:
+            schema: *id008
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  dateRapport:
+                    type: string
+                    format: date
+                    readOnly: true
+                  content:
+                    type: string
+                required:
+                - content
+          description: ''
+    patch:
+      operationId: partial_updateRapport
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this rapport.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id009
+              properties:
+                content:
+                  type: string
+          application/x-www-form-urlencoded:
+            schema: *id009
+          multipart/form-data:
+            schema: *id009
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  dateRapport:
+                    type: string
+                    format: date
+                    readOnly: true
+                  content:
+                    type: string
+                required:
+                - content
+          description: ''
+    delete:
+      operationId: destroyRapport
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this rapport.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''

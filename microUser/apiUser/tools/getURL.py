@@ -13,5 +13,7 @@ def getJSON(url):
     try:
         js = json.loads(content)
     except:
+        print('--------- error : parsing this : ')
+        print('        - ' + content)
         return {'error': 'json parse'}
     return js

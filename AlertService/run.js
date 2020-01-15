@@ -1,6 +1,5 @@
 const amqp = require('amqplib/callback_api')
 const wretch = require('wretch')
-const sample = require('./test.json')
 
 global.fetch = require("node-fetch")
 global.FormData = require("form-data")

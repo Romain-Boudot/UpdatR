@@ -1,9 +1,12 @@
-var Keycloak = require('keycloak-connect');
 var express = require('express');
 var session = require('express-session');
-global.atob = require("atob");
 const tokenAnalyse = require('./tokenAnalyse')
 const apiAuth = require('./api_auth')
+
+global.atob = require("atob");
+global.fetch = require("node-fetch")
+global.FormData = require("form-data")
+global.URLSearchParams = require("url").URLSearchParams
 
 var app = express();
 
@@ -28,19 +31,17 @@ app.use(session({
   store: memoryStore
 }));
 
-var keycloak = new Keycloak({
-  store: memoryStore
-});
+// app.get('/auth/login', function (req, res) {
+//   redirectToLoginRoute(res, dispathNewToken(JSON.parse(req.session['keycloak-token']), null, 4));
+// });
 
-app.use(keycloak.middleware({
-  logout: '/auth/logout',
-  admin: '/',
-  protected: '/protected/resource'
-}));
-
-app.get('/auth/login', keycloak.protect(), function (req, res) {
-  redirectToLoginRoute(res, dispathNewToken(JSON.parse(req.session['keycloak-token']), null, 4));
-});
+app.get('/auth/callback', function(req, res) {
+  wretch("https://github.com/login/oauth/access_token").json({
+    client_id: "a79cafc41411d723ff50",
+    client_secret: "d28491002fe5dab1da00763309e83fbd20174bb7",
+    code: code
+  }).post().then()
+})
 
 app.get('/api*', function (req, res) {
   printJson(res, apiAuth.setApi(req))

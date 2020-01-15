@@ -1,16 +1,9 @@
-from .tokenValidation.token_validate import isToken_valid
+from .tokenValidation.token_validate import tokenAnalyse
 from django.http import HttpResponse
-from .rapport.readRapport import ReadRapport
+from .rapport.readRapport import ReadRapport, setReadRapport
 from .tools.getURL import getJSON
 
 HEADER_TOKEN = 'Token-User'
-
-RABBIT = {
-    'URL': 'amqp://guest:Romain01@app.updatr.tech',
-    'QUEUE': 'alert'
-}
-
-USER_DATA_URL = 'http://127.0.0.1:3000/api/get/'
 
 class Middleware:
     def __init__(self, get_response):
@@ -18,28 +11,21 @@ class Middleware:
         self.setQueueListener()
     
     def setQueueListener(self):
-        rapport = ReadRapport(RABBIT['URL'])
-        rapport.listen(RABBIT['QUEUE'])
+        rapport = ReadRapport()
+        setReadRapport(rapport)
 
     def __call__(self, request):
-        headers = request.headers
+        # if not request.path.startswith('/api'):
+        #     return self.get_response(request)
 
-        if not HEADER_TOKEN in headers.keys():
-            return self.throwError('no token in header (specify by \'Token-User\' attribute in header)')
+        result = tokenAnalyse(request, self)
+        if result != None: # analyse le token et envoie une erreur s'il y a une invalidité
+            return self.throwError(result)
 
-        token = headers[HEADER_TOKEN]
+        return self.get_response(request)
 
-        if not isToken_valid(token):
-            return self.throwError('Token invalid') # si le token n'est pas valide, nous envoyons une erreur
+
         
-        user_data = getJSON(USER_DATA_URL + token)
-        username = user_data['user']['preferred_username']
-        session = request.session
-        session['username'] = username
-        test = session['username']
-        response = self.get_response(request)
-
-        return response
     
     def throwError(self, error):
         return HttpResponse("{\"error\": \"" + error.replace('"', '\"') + "\"}", content_type="application/json")
