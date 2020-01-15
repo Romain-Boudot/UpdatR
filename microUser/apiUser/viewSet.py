@@ -147,7 +147,7 @@ class RapportSet(viewsets.ModelViewSet):
 
     def create(self, request):
         if not 'admin' in request.session:
-            return HttpResponse('{"error": "not authorized"}', content_type="application/json")
+            return self.sendRapport(request)
         admin = request.session['admin']
         if not admin:
             return self.sendRapport(request)
