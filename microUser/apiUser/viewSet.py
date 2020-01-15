@@ -109,7 +109,7 @@ class RapportSet(viewsets.ModelViewSet):
         # id = request.data['rapportInfo']
         print(request.data)
         repo_link = request.data['repo_link']
-        print('pk : ' + pk)
+        # print('pk : ' + pk)
         username = request.session['username']
         checker = CheckerGitHubRapport()
         rapportInfos = checker.check(username)
