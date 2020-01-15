@@ -20,12 +20,11 @@ export class authService {
   }
 
   set token(value) {
-    localStorage.setItem('authToken', value)
-    this._token = value
-  }
-
-  setToken(value) {
-    localStorage.setItem('authToken', value)
+    if (value) { 
+      localStorage.setItem('authToken', value)
+    } else {
+      localStorage.clear()
+    }
     this._token = value
   }
 
