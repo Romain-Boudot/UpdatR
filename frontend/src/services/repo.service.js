@@ -21,5 +21,8 @@ export class repoService {
   getRapport(repo) {
     return this._api.getRapports(repo)
   }
+  createRapport(repo) {
+    return this._api.createRapport(repo)
+  }
 
 }

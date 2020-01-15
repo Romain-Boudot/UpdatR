@@ -120,6 +120,8 @@ class RapportSet(viewsets.ModelViewSet):
             RapportModel.hasAutoReport = True
             RapportModel.repo_link = rapportInfo['repo_link']
             RapportModel.repo_name = rapportInfo['repo_name']
+            RapportModel.Discord_alert = request.data['Discord_alert']
+            RapportModel.Slack_alert = request.data['Slack_alert']
             RapportModel.save()
 
         state = '{"state": "success"}'

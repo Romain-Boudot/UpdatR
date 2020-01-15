@@ -18,13 +18,15 @@
 
         <div class="form-group">
           <label for="discord">Alerte Discord (vide pour ne rien envoyer)</label>
-          <input type="text" class="form-control" id="discord" placeholder="https://...">
+          <input v-model="targetedRepo.Discord_alert" type="text" class="form-control" id="discord" placeholder="https://...">
         </div>
 
         <div class="form-group">
           <label for="slack">Alerte Slack (vide pour ne rien envoyer)</label>
-          <input type="text" class="form-control" id="slack" placeholder="https://...">
+          <input v-model="targetedRepo.Slack_alert" type="text" class="form-control" id="slack" placeholder="https://...">
         </div>
+
+        <button v-on:click="createRapport" type="button" class="btn btn-primary">Demander un rapport</button>
 
         <ul class="list-group">
           <li v-for="rapport in rapports" v-bind:key="rapport.date" class="list-group-item rapport">
@@ -86,6 +88,9 @@ export default {
     btoa(string) { return btoa(string) },
     filteredRapport(rapport) {
       return Object.keys(rapport).map(depName => ({...rapport[depName], packageName: depName})).filter(dep => dep.outdated)
+    },
+    createRapport() {
+      this.$repo.createRapport(this.targetedRepo)
     }
   }
 }
