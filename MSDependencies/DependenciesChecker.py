@@ -6,7 +6,7 @@ from ReportHandler.ChecksDependencies import ChecksDependencies
 import os
 
 if __name__ == "__main__":
-    os.chdir("./repos")
+    os.chdir("repos")
     url = "amqp://guest:Romain01@app.updatr.tech"
     rabbit = RabbitMQWrapper(url=url) #Instanciation pour lire les queues
     rabbit.listen('url_git') #Lit les queues

@@ -33,7 +33,7 @@ class RabbitMQWrapper:
                     "SlackAlert": resp['Slack_alert']
                 }
                 print('envoie du rapport dans "rapport"')
-                self.send(queue='rapport', durable=True, body=json.dumps(reports), routing_key='rapport')  # Envoie le rapport dans la queue alert
+                self.send(queue='rapport', durable=False, body=json.dumps(reports), routing_key='rapport')  # Envoie le rapport dans la queue alert
                 if check.report.hasOutdatedPackage():
                     print('envoie du rapport dans "alert"')
                     self.send(queue='alert', durable=True, body=json.dumps(reports), routing_key='alert')  # Envoie le rapport dans la queue rapport
