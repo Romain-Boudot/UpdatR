@@ -25,7 +25,7 @@ SECRET_KEY = 'c*#f$3wx2d11-gm^!2==!e2i#1)6f)n6mff@tq3v+l0g(58j&b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['app.updatr.tech', '127.0.0.1']
 
 
 # Application definition

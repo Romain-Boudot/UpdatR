@@ -46,7 +46,7 @@ class FrequenceListSet(viewsets.ModelViewSet):
 class RapportInfoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RapportInfo
-        fields = ['id', 'repo_link', 'repo_name', 'hasAutoReport', 'Discord_alert', 'Slack_alert', 'frequence', ]
+        fields = ['id', 'repo_link', 'repo_name', 'hasAutoReport', 'Discord_alert', 'Slack_alert' ]
 
 class RapportInfoSet(viewsets.ModelViewSet):
     queryset = RapportInfo.objects.all()
@@ -55,8 +55,24 @@ class RapportInfoSet(viewsets.ModelViewSet):
     def list(self, request):
         username = request.session['username']
         checker = CheckerGitHubRapport()
-
         return Response(checker.check(username))
+
+    def create(self, request):
+        username = request.session['username']
+        user = User.objects.get(libelle_git=username)
+        if not user: 
+            return HttpResponse('{ "done": false }')
+
+        rapportInfo = RapportInfo()
+        rapportInfo.Discord_alert = request.data['Discord_alert']
+        rapportInfo.Slack_alert = request.data['Slack_alert']
+        rapportInfo.repo_link = request.data['repo_link']
+        rapportInfo.repo_name = request.data['repo_name']
+        rapportInfo.hasAutoReport = True
+        rapportInfo.user = user
+        rapportInfo.save()
+
+        return HttpResponse('{ "done": true }')
 
     def retrieve(self, request, pk=None):
         queryset = RapportInfo.objects.get(id=1)
@@ -73,22 +89,73 @@ class RapportSet(viewsets.ModelViewSet):
     serializer_class = RapportSerializer
 
     def list(self, request):
-        queryset = Rapport.objects.all()
+        repo_link = request.query_params['repo_link']
+        username = request.session['username']
+
+        rapportInfo = RapportInfo.objects.get(repo_link=repo_link)
+        if not rapportInfo:
+            return HttpResponse('[]', content_type="application/json")
+
+        queryset = Rapport.objects.filter(rapportInfo=rapportInfo)
         serializer = RapportSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
-    def create(self, request):
-        id = request.data['rapportInfo']
+    def sendRapport(self, request):
+        # id = request.data['rapportInfo']
+        print(request.data)
+        repo_link = request.data['repo_link']
+        # print('pk : ' + pk)
+        username = request.session['username']
+        checker = CheckerGitHubRapport()
+        rapportInfos = checker.check(username)
+        rapportInfo = next((rapport for rapport in rapportInfos if rapport['repo_link'] == repo_link), False)
+        
+        if not rapportInfo:
+            return HttpResponse('{"state": "failed"}', content_type="application/json")
+
+        if not 'Discord_alert' in rapportInfo:
+            RapportModel = RapportInfo()
+            RapportModel.hasAutoReport = True
+            RapportModel.repo_link = rapportInfo['repo_link']
+            RapportModel.repo_name = rapportInfo['repo_name']
+            if 'Discord_alert' in  request.data:
+                RapportModel.Discord_alert = request.data['Discord_alert']
+            if 'Slack_alert' in  request.data:
+                RapportModel.Slack_alert = request.data['Slack_alert']
+            RapportModel.user = User.objects.get(libelle_git=username)
+            RapportModel.save()
+
+        queryset = RapportInfo.objects.get(repo_link=repo_link)
+        serializer = RapportInfoSerializer(queryset, many=False)
+        rapportInfo = serializer.data
         state = '{"state": "success"}'
         try:
-            rapportInfo = RapportInfo.objects.get(id=id)
+            # rapportInfo = RapportInfo.objects.get(id=id)
             readRapport = getReadRapport()
             content = {
-                'id': rapportInfo.id,
-                'git_url': rapportInfo.repo_link
+                # 'id': rapportInfo.id,
+                'git_url': repo_link, #rapportInfo.repo_link
+                'Discord_alert': rapportInfo['Discord_alert'],
+                'Slack_alert': rapportInfo['Slack_alert']
             }
             
             readRapport.send(content)
         except ValueError:
             state = '{"state": "failed"}'
         return HttpResponse(state, content_type="application/json")
+
+    def create(self, request):
+        if not 'admin' in request.session:
+            return self.sendRapport(request)
+        admin = request.session['admin']
+        if not admin:
+            return self.sendRapport(request)
+        repo_link = request.data['git_url']
+        print(repo_link)
+        data = request.data['rapportInfo']
+        print(data)
+        rapport = Rapport()
+        rapport.content = data
+        rapport.rapportInfo = RapportInfo.objects.get(repo_link=repo_link)
+        rapport.save()
+        return HttpResponse('pass', content_type="application/json")

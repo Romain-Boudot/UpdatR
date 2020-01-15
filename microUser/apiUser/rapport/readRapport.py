@@ -16,14 +16,15 @@ class ReadRapport:
         
     def initChannel(self):
         self.connection = pika.BlockingConnection(pika.connection.URLParameters(url=RABBIT['URL']))
-        channel = self.connection.channel()
+        # self.channel = self.connection.channel()
+        # self.channel.queue_declare(queue=RABBIT['QUEUE_EMIT']) # nous déclarons la queue d'emission
 
-        channel.queue_declare(queue=RABBIT['QUEUE_EMIT']) # nous déclarons la queue d'emission
-
-        channel.basic_consume(queue=RABBIT['QUEUE_LISTEN'], # nous déclarons la queue d'ecoute
-                      auto_ack=True,
-                      on_message_callback=self.callback)
-        self.channel = channel
+        # channel = self.connection.channel()
+        # channel.basic_consume(queue=RABBIT['QUEUE_LISTEN'], # nous déclarons la queue d'ecoute
+        #               auto_ack=True,
+        #               on_message_callback=self.callback)
+        # channel.start_consuming()
+        # self.channel = channel
 
     def send(self, body):
         route = RABBIT['QUEUE_EMIT']
@@ -31,8 +32,10 @@ class ReadRapport:
         self.sendData(js, route)
 
     def sendData(self, js, route):
+        self.channel = self.connection.channel()
+        self.channel.queue_declare(queue=RABBIT['QUEUE_EMIT']) # nous déclarons la queue d'emission
         self.channel.basic_publish(exchange='', routing_key=route, body=js)
-        self.channel.start_consuming()
+        # self.channel.start_consuming()
 
     def callback(self, ch, method, properties, body):
         try:

@@ -12,12 +12,12 @@ class FrequenceList(models.Model):
 class RapportInfo(models.Model):
     repo_link = models.CharField(max_length=255)
     repo_name = models.CharField(max_length=255, null=True)
-    frequence = models.IntegerField()
     Discord_alert = models.CharField(max_length=255, default='')
     Slack_alert = models.CharField(max_length=255, default='')
-    # DateTimeRapport = models.DateTimeField()
     hasAutoReport = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # frequence = models.IntegerField()
+    # DateTimeRapport = models.DateTimeField()
 
 class Rapport(models.Model):
     dateRapport = models.DateField(null=True, auto_now_add=True)

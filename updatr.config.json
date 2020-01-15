@@ -1,0 +1,29 @@
+[
+  {
+    "name": "CheckDependencies",
+    "cmd": "DependenciesChecker.py",
+    "cwd": "/var/UpdatR/MSDependencies",
+    "interpreter": "python3",
+    "autorestart": true
+  },
+  {
+    "name": "authService",
+    "script": "index.js",
+    "cwd": "/var/UpdatR/authService",
+    "autorestart": true
+  },
+  {
+    "name": "MicroUser",
+    "cmd": "manage.py",
+    "args": "runserver",
+    "cwd": "/var/UpdatR/microUser",
+    "interpreter": "python3",
+    "autorestart": true
+  },
+  {
+    "name": "AlertService",
+    "script": "run.js",
+    "cwd": "/var/UpdatR/AlertService/",
+    "autorestart": true
+  }
+]

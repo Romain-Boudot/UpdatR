@@ -11,7 +11,7 @@ class CheckerGitHubRapport:
         rapportInfos = self.getRapportInfosByUserLibelleGit(username)
         
         # https://api.github.com/users/ncev/repos
-        githubRepos = getJSON('https://api.github.com/users/ncev/repos')
+        githubRepos = getJSON('https://api.github.com/users/' + username + '/repos')
         supDatas = self.orderRapports(rapportInfos, githubRepos)
         orderedSupDatas = self.convertDictToOrderectDict(supDatas)
         rapportInfosData = RapportInfoSerializer(rapportInfos, many=True).data
@@ -28,7 +28,7 @@ class CheckerGitHubRapport:
         datas = []
         for repos in githubRepos:
             if not self.isRapportWIthRepoName(rapportInfos, repos['name']):
-                datas.append({'repo_link': repos['url'], 'repo_name': repos['name'], 'hasAutoReport': False})
+                datas.append({'repo_link': repos['html_url'], 'repo_name': repos['name'], 'hasAutoReport': False})
 
         return datas
     
@@ -47,8 +47,10 @@ class CheckerGitHubRapport:
     def getRapportInfosByUserLibelleGit(self, libelle_git):
         user = self.getUserByLibelleGit(libelle_git)
         if user == None:
-            return []
-
+            user = User()
+            user.libelle_git = libelle_git
+            user.save()
+            user = self.getUserByLibelleGit(libelle_git)
         try:
             return RapportInfo.objects.filter(user=user)
         except:

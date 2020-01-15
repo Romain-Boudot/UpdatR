@@ -15,8 +15,8 @@ class Middleware:
         setReadRapport(rapport)
 
     def __call__(self, request):
-        if not request.path.startswith('/repos'):
-            return self.get_response(request)
+        # if not request.path.startswith('/api'):
+        #     return self.get_response(request)
 
         result = tokenAnalyse(request, self)
         if result != None: # analyse le token et envoie une erreur s'il y a une invalidité

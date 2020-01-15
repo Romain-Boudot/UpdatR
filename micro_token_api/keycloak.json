@@ -1,6 +1,6 @@
 {
   "realm": "master",
-  "auth-server-url": "http://localhost:8080/auth",
+  "auth-server-url": "https://app.updatr.tech/auth",
   "ssl-required": "external",
   "resource": "account",
   "public-client": true,
