@@ -41,7 +41,7 @@ class RabbitMQWrapper:
                 if check.report.hasOutdatedPackage():
                     print('envoie du rapport dans "alert"')
                     self.send(queue='alert', durable=True, body=json.dumps(reports), routing_key='alert')  # Envoie le rapport dans la queue rapport
-                    #os.system("rm -rf {}".format(check.report.path))
+                    os.system("rm -rf repos/{}".format(check.path_git))
             except ValueError:
                 pass
 
