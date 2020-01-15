@@ -114,7 +114,7 @@ class RapportSet(viewsets.ModelViewSet):
         checker = CheckerGitHubRapport()
         rapportInfos = checker.check(username)
         rapportInfo = next((rapport for rapport in rapportInfos if rapport['repo_link'] == repo_link), False)
-
+        
         if not rapportInfo:
             return HttpResponse('{"state": "failed"}', content_type="application/json")
 
@@ -129,8 +129,8 @@ class RapportSet(viewsets.ModelViewSet):
                 RapportModel.Slack_alert = request.data['Slack_alert']
             RapportModel.user = User.objects.get(libelle_git=username)
             RapportModel.save()
-            rapportInfo = RapportModel
 
+        rapportInfo = RapportInfo.objects.get(repo_link=repo_link)
         state = '{"state": "success"}'
         try:
             # rapportInfo = RapportInfo.objects.get(id=id)
