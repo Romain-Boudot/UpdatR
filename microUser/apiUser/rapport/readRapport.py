@@ -16,8 +16,8 @@ class ReadRapport:
         
     def initChannel(self):
         self.connection = pika.BlockingConnection(pika.connection.URLParameters(url=RABBIT['URL']))
-        self.channel = self.connection.channel()
-        self.channel.queue_declare(queue=RABBIT['QUEUE_EMIT']) # nous déclarons la queue d'emission
+        # self.channel = self.connection.channel()
+        # self.channel.queue_declare(queue=RABBIT['QUEUE_EMIT']) # nous déclarons la queue d'emission
 
         # channel = self.connection.channel()
         # channel.basic_consume(queue=RABBIT['QUEUE_LISTEN'], # nous déclarons la queue d'ecoute
@@ -32,6 +32,8 @@ class ReadRapport:
         self.sendData(js, route)
 
     def sendData(self, js, route):
+        self.channel = self.connection.channel()
+        self.channel.queue_declare(queue=RABBIT['QUEUE_EMIT']) # nous déclarons la queue d'emission
         self.channel.basic_publish(exchange='', routing_key=route, body=js)
         # self.channel.start_consuming()
 
