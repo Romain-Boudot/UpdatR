@@ -7,9 +7,9 @@
     "autorestart": true
   },
   {
-    "name": "MicroTokenApi",
+    "name": "authService",
     "script": "index.js",
-    "cwd": "/var/UpdatR/micro_token_api",
+    "cwd": "/var/UpdatR/authService",
     "autorestart": true
   },
   {

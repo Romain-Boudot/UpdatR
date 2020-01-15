@@ -22,4 +22,5 @@ class RapportInfo(models.Model):
 class Rapport(models.Model):
     dateRapport = models.DateField(null=True, auto_now_add=True)
     content = models.TextField()
+    repo_link = models.CharField(max_length=255)
     rapportInfo = models.ForeignKey(RapportInfo, on_delete=models.CASCADE, null=True)

@@ -11,7 +11,7 @@ class CheckerGitHubRapport:
         rapportInfos = self.getRapportInfosByUserLibelleGit(username)
         
         # https://api.github.com/users/ncev/repos
-        githubRepos = getJSON('https://api.github.com/users/ncev/repos')
+        githubRepos = getJSON('https://api.github.com/users/' + username + '/repos')
         supDatas = self.orderRapports(rapportInfos, githubRepos)
         orderedSupDatas = self.convertDictToOrderectDict(supDatas)
         rapportInfosData = RapportInfoSerializer(rapportInfos, many=True).data
