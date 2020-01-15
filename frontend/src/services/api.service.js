@@ -18,7 +18,7 @@ export class apiService {
   }
 
   getAllRepo() {
-    return wretch().url('https://app.updatr.tech/api/rapportinfo/list').headers({
+    return wretch().url('https://app.updatr.tech/api/rapportinfo/').headers({
       authorization: this._auth.token
     }).get()
   }
