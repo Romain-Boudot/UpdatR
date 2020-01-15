@@ -9,6 +9,7 @@ Vue.use(VueRouter)
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/login', name: 'login', component: Login },
+  { path: '/login/:token', name: 'token', component: Login },
   { path: '/:repo', name: 'repoDetails', component: Home }
 ]
 
@@ -20,7 +21,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const auth = authService.getService();
-  if (to.name !== 'login' && !auth.token) {
+  if (to.name !== 'login' && to.name !== 'token' && !auth.token) {
     next('/login');
   }
   next();
