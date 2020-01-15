@@ -24,6 +24,13 @@ router.beforeEach((to, from, next) => {
   if (to.name !== 'login' && to.name !== 'token' && !auth.token) {
     next('/login');
   }
+  if (to.name === 'login' && !!auth.token) {
+    next('/');
+  }
+  if (to.name === 'token') {
+    auth.token = from.params.token
+    next('/login');
+  }
   next();
 })
 
