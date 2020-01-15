@@ -113,7 +113,7 @@ class RapportSet(viewsets.ModelViewSet):
         username = request.session['username']
         checker = CheckerGitHubRapport()
         rapportInfos = checker.check(username)
-        rapportInfo = next((rapport for rapport in rapportInfos if rapport.repo_link == repo_link), False)
+        rapportInfo = next((rapport for rapport in rapportInfos if rapport['repo_link'] == repo_link), False)
 
         if not rapportInfo:
             return HttpResponse('{"state": "failed"}', content_type="application/json")
