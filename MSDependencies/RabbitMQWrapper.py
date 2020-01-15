@@ -7,6 +7,7 @@ class RabbitMQWrapper:
 
     def __init__(self, url):
         self.connection = pika.BlockingConnection(pika.connection.URLParameters(url=url))
+        self.connection.process_data_events(time_limit=1)
         self.channel = None
         self.id = {}
 
