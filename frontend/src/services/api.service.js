@@ -35,7 +35,7 @@ export class apiService {
     console.log(this._auth.token)
     return wretch().url('https://app.updatr.tech/api/rapport/askfor/').headers({
       authorization: this._auth.token
-    }).post({ repo_link: repo.repo_link, Discord_alert: repo.Discord_alert, Slack_alert: repo.Slack_alert }).json()
+    }).put({ repo_link: repo.repo_link, Discord_alert: repo.Discord_alert, Slack_alert: repo.Slack_alert }).json()
   }
 
 }
