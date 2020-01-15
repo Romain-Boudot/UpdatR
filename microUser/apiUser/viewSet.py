@@ -155,5 +155,6 @@ class RapportSet(viewsets.ModelViewSet):
         data = request.data['rapportInfo']
         rapport = Rapport()
         rapport.content = data
+        print(data)
         rapport.rapportInfo = RapportInfo.objects.get(repo_link=repo_link)
         rapport.save()
