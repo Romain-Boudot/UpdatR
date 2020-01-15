@@ -34,11 +34,11 @@ class RabbitMQWrapper:
                     "SlackAlert": resp['Slack_alert']
                 }
                 print('envoie du rapport dans "rapport"')
-                self.send(queue='rapport', durable=False, body=json.dumps(reports), routing_key='rapport')  # Envoie le rapport dans la queue alert
+                url = "http://127.0.0.1:8000/api/rapport/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5vbmUiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTc5MDc4Njk1LCJleHAiOjE2NTY4Mzg2OTV9.s4g9C3TRTkSpS-c-VUrpNbF_xw0PtV4YYjnRCTxtQv8"
+                requests.post(url, data=reports)
                 if check.report.hasOutdatedPackage():
                     print('envoie du rapport dans "alert"')
-                    url = "http://127.0.0.1:8000/api/rapport/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5vbmUiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTc5MDc4Njk1LCJleHAiOjE2NTY4Mzg2OTV9.s4g9C3TRTkSpS-c-VUrpNbF_xw0PtV4YYjnRCTxtQv8"
-                    requests.post(url, data=reports)
+                    self.send(queue='alert', durable=True, body=json.dumps(reports), routing_key='alert')  # Envoie le rapport dans la queue rapport
                     #os.system("rm -rf {}".format(check.report.path))
             except ValueError:
                 pass
