@@ -24,6 +24,11 @@ export class authService {
     this._token = value
   }
 
+  setToken(value) {
+    localStorage.setItem('authToken', value)
+    this._token = value
+  }
+
   logout() {
     localStorage.clear()
     this.token = null
