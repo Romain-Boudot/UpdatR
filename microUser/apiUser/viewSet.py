@@ -90,6 +90,7 @@ class RapportSet(viewsets.ModelViewSet):
 
     def list(self, request):
         repo_link = request.query_params['repo_link']
+        username = request.session['username']
 
         user = User.objects.get(libelle_git=username)
         if user == None:
