@@ -82,7 +82,7 @@ class RapportInfoSet(viewsets.ModelViewSet):
 class RapportSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Rapport
-        fields = ['id', 'dateRapport', 'content', 'rapportInfo']
+        fields = ['content', 'rapportInfo']
 
 class RapportSet(viewsets.ModelViewSet):
     queryset = Rapport.objects.all()
