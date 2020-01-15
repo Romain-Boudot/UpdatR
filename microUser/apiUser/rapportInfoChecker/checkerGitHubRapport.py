@@ -28,7 +28,7 @@ class CheckerGitHubRapport:
         datas = []
         for repos in githubRepos:
             if not self.isRapportWIthRepoName(rapportInfos, repos['name']):
-                datas.append({'repo_link': repos['url'], 'repo_name': repos['name'], 'hasAutoReport': False})
+                datas.append({'repo_link': repos['html_url'], 'repo_name': repos['name'], 'hasAutoReport': False})
 
         return datas
     
