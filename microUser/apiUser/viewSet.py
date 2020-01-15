@@ -92,12 +92,7 @@ class RapportSet(viewsets.ModelViewSet):
         repo_link = request.query_params['repo_link']
         username = request.session['username']
 
-        user = User.objects.get(libelle_git=username)
-        if user == None:
-            return HttpResponse('[]', content_type="application/json")
-
-        rapportInfos = RapportInfo.objects.filter(user=user)
-        rapportInfo = next((rapport for rapport in rapportInfos if rapport.repo_link == repo_link), False)
+        rapportInfo = RapportInfo.objects.get(repo_link=repo_link)
         if not rapportInfo:
             return HttpResponse('[]', content_type="application/json")
 
