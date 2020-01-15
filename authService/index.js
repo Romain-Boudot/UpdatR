@@ -32,7 +32,7 @@ app.get('/auth/callback', function(req, res) {
 })
 
 app.get('/local/token/info', function(res, req) {
-  const token = req.params.token
+  const token = req.query.token
   if (!token) {
     res.send(JSON.stringify({ valid: false }))
   }
