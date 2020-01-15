@@ -23,8 +23,6 @@ class RabbitMQWrapper:
                 # resp["git_url"] = 'https://github.com/BaptisteMagoni/app-questionnaire-vue.git'
                 return
             print(resp['git_url'])
-            print(resp['id'])
-            self.id = resp['id']
             try:
                 check = ChecksDependencies(resp["git_url"])
                 check.start()
@@ -42,7 +40,6 @@ class RabbitMQWrapper:
                     #os.system("rm -rf {}".format(check.report.path))
             except ValueError:
                 pass
-
 
         channel = self.connection.channel()
         channel.basic_consume(queue=queue, on_message_callback=callback, auto_ack=True)
