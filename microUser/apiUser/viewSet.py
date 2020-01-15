@@ -46,7 +46,7 @@ class FrequenceListSet(viewsets.ModelViewSet):
 class RapportInfoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RapportInfo
-        fields = ['id', 'repo_link', 'repo_name', 'hasAutoReport', 'Discord_alert', 'Slack_alert', 'frequence', ]
+        fields = ['id', 'repo_link', 'repo_name', 'hasAutoReport', 'Discord_alert', 'Slack_alert', ]
 
 class RapportInfoSet(viewsets.ModelViewSet):
     queryset = RapportInfo.objects.all()
