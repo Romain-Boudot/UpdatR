@@ -19,7 +19,7 @@ export class authService {
     return this._token
   }
 
-  set token(value) {
+  setToken(value) {
     if (value) { 
       localStorage.setItem('authToken', value)
     } else {
@@ -30,7 +30,7 @@ export class authService {
 
   logout() {
     localStorage.clear()
-    this.token = null
+    this._token = null
   }
 
 }
