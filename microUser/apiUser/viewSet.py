@@ -129,6 +129,7 @@ class RapportSet(viewsets.ModelViewSet):
                 RapportModel.Slack_alert = request.data['Slack_alert']
             RapportModel.user = User.objects.get(libelle_git=username)
             RapportModel.save()
+            rapportInfo = RapportModel
 
         state = '{"state": "success"}'
         try:
