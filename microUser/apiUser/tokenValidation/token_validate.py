@@ -38,6 +38,9 @@ def tokenAnalyse(request, middleware):
         return 'Token invalid'
         # return middleware.throwError(user_data['error'])
 
+    if 'admin' in user_data:
+        request.session['admin'] = user_data['admin']
+        
     username = user_data['username']
     session = request.session
     session['username'] = username

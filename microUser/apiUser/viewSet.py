@@ -105,9 +105,10 @@ class RapportSet(viewsets.ModelViewSet):
         serializer = RapportSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
-    def create(self, request):
+    def retrieve(self, request, pk=None):
         # id = request.data['rapportInfo']
-        repo_link = request.data['repo_link']
+        repo_link = pk
+        print('pk : ' + pk)
         username = request.session['username']
         checker = CheckerGitHubRapport()
         rapportInfos = checker.check(username)
@@ -140,3 +141,17 @@ class RapportSet(viewsets.ModelViewSet):
         except ValueError:
             state = '{"state": "failed"}'
         return HttpResponse(state, content_type="application/json")
+
+    def create(self, request):
+        if not 'admin' in request.session:
+            return HttpResponse('{"error": "not authorized"}', content_type="application/json")
+        admin = request.session['admin']
+        if not admin:
+            return HttpResponse('{"error": "not authorized"}', content_type="application/json")
+
+        repo_link = request.data['git_url']
+        data = request.data['rapportInfo']
+        rapport = Rapport()
+        rapport.content = data
+        rapport.rapportInfo = RapportInfo.objects.get(repo_link=repo_link)
+        rapport.save()
