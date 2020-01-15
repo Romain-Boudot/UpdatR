@@ -158,3 +158,4 @@ class RapportSet(viewsets.ModelViewSet):
         rapport.content = data
         rapport.rapportInfo = RapportInfo.objects.get(repo_link=repo_link)
         rapport.save()
+        return HttpResponse('pass', content_type="application/json")
