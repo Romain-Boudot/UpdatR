@@ -12,6 +12,7 @@ export default {
   name: 'Login',
   mounted() {
     const token = $route.params.token
+    console.warn(token)
     if (!token) {
       return
     }

@@ -22,10 +22,13 @@ app.get('/auth/callback', function(req, res) {
       client_secret: "d28491002fe5dab1da00763309e83fbd20174bb7",
       code: code
     }).post().json().then(response => {
-      console.log(response)
-      const token = jwt.sign({ username: response.token_type, token: response.access_token }, JWT_SECRET, { expiresIn: '1d' })
-      res.redirect('https://app.updatr.tech/login/' + token)
-    })
+      wretch("https://api.github.com/user")
+        .headers({ Authorization: 'token ' + response.access_token })
+        .get().json().then(resp => {
+          const token = jwt.sign({ username: resp.login }, JWT_SECRET, { expiresIn: '1d' })
+          res.redirect('https://app.updatr.tech/login/' + token)
+        }).catch(err => { res.send(err) })
+    }).catch(err => { res.send(err) })
 })
 
 app.get('/local/token/info/:token', function(res, req) {
