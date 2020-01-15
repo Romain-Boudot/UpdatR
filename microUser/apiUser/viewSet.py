@@ -105,7 +105,7 @@ class RapportSet(viewsets.ModelViewSet):
         serializer = RapportSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
-    def retrieve(self, request, pk=None):
+    def update(self, request, pk=None):
         # id = request.data['rapportInfo']
         repo_link = request.data['repo_link']
         print('pk : ' + pk)
