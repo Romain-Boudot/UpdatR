@@ -8,7 +8,7 @@ TOKEN = {
     'GET': 'token'
 }
 
-USER_DATA_URL = 'http://127.0.0.1:3000/local/token/info/'
+USER_DATA_URL = 'http://127.0.0.1:3000/local/token/info?token='
 
 def tokenAnalyse(request, middleware):
     headers = request.headers
