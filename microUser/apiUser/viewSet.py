@@ -105,7 +105,7 @@ class RapportSet(viewsets.ModelViewSet):
         serializer = RapportSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
-    def update(self, instance, request, pk=None):
+    def sendRapport(self, request):
         # id = request.data['rapportInfo']
         print(request.data)
         repo_link = request.data['repo_link']
@@ -150,7 +150,7 @@ class RapportSet(viewsets.ModelViewSet):
             return HttpResponse('{"error": "not authorized"}', content_type="application/json")
         admin = request.session['admin']
         if not admin:
-            return HttpResponse('{"error": "not authorized"}', content_type="application/json")
+            return self.sendRapport(request)
 
         repo_link = request.data['git_url']
         data = request.data['rapportInfo']
