@@ -13,14 +13,14 @@ const JWT_SECRET = 'q58sXwg3%8JgZG^g!&A#'
 app.get('/auth/callback', function(req, res) {
   const code = req.query.code
   if (!code) {
-    res.send('no code provided')
+    return res.send('no code provided')
   }
   wretch("https://github.com/login/oauth/access_token").json({
     client_id: "a79cafc41411d723ff50",
     client_secret: "d28491002fe5dab1da00763309e83fbd20174bb7",
     code: code
-  }).post().then(res => {
-    const token = jwt.sign({ username: '' }, JWT_SECRET, { expiresIn: '1d' })
+  }).post().json().then(res => {
+    const token = jwt.sign({ username: '', token: res.access_token }, JWT_SECRET, { expiresIn: '1d' })
     res.redirect('https://app.updatr.tech/login/' + token)
   })
 })
