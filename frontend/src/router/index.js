@@ -29,7 +29,7 @@ router.beforeEach((to, from, next) => {
   }
   if (to.name === 'token') {
     console.log(to.params.token)
-    auth.setToken(from.params.token)
+    auth.setToken(to.params.token)
     next('/');
   }
   next();
