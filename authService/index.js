@@ -38,7 +38,7 @@ app.get('/local/token/info/:token', function(req, res) {
   }
   try {
     const token = jwt.verify(req.params.token, JWT_SECRET)
-    res.send(JSON.stringify({ valid: true, username: token.username }))
+    res.send(JSON.stringify({ valid: true, admin: token.admin || false, username: token.username }))
   } catch(err) {
     res.send(JSON.stringify({ valid: false }))
   }

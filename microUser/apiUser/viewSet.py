@@ -146,13 +146,10 @@ class RapportSet(viewsets.ModelViewSet):
 
     def create(self, request):
         if not 'admin' in request.session:
-            print('not admin 1')
             return self.sendRapport(request)
         admin = request.session['admin']
         if not admin:
-            print('not admin 2')
             return self.sendRapport(request)
-        print('---------------- admin ----------------')
         repo_link = request.data['git_url']
         print(repo_link)
         data = request.data['rapportInfo']
