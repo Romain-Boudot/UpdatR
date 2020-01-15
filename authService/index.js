@@ -15,15 +15,17 @@ app.get('/auth/callback', function(req, res) {
   if (!code) {
     return res.send('no code provided')
   }
-  wretch("https://github.com/login/oauth/access_token").json({
-    client_id: "a79cafc41411d723ff50",
-    client_secret: "d28491002fe5dab1da00763309e83fbd20174bb7",
-    code: code
-  }).post().text().then(res => {
-    console.log(res)
-    const token = jwt.sign({ username: '', token: res.access_token }, JWT_SECRET, { expiresIn: '1d' })
-    res.redirect('https://app.updatr.tech/login/' + token)
-  })
+  wretch("https://github.com/login/oauth/access_token")
+    .headers({ Accept: "application/json" })
+    .json({
+      client_id: "a79cafc41411d723ff50",
+      client_secret: "d28491002fe5dab1da00763309e83fbd20174bb7",
+      code: code
+    }).post().text().then(res => {
+      console.log(res)
+      const token = jwt.sign({ username: '', token: res.access_token }, JWT_SECRET, { expiresIn: '1d' })
+      res.redirect('https://app.updatr.tech/login/' + token)
+    })
 })
 
 app.get('/local/token/info/:token', function(res, req) {
