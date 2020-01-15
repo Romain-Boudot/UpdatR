@@ -42,9 +42,7 @@ class ReadRapport:
             data = js['rapportInfo']
             rapport = Rapport()
             rapport.content = data
-            raaport.repo_link = repo_link
             rapport.rapportInfo = self.getRapportInfoById(repo_link)
-            # rapport.rapportInfo = self.getRapportInfoById(repo_link)
             rapport.save()
         except:
             pass

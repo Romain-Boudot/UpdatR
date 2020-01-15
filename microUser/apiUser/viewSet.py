@@ -58,13 +58,20 @@ class RapportInfoSet(viewsets.ModelViewSet):
         return Response(checker.check(username))
 
     def create(self, request):
+        username = request.session['username']
+        user = User.objects.get(libelle_git=username)
+        if not user: 
+            return HttpResponse('{ "done": false }')
+
         rapportInfo = RapportInfo()
         rapportInfo.Discord_alert = request.data['Discord_alert']
         rapportInfo.Slack_alert = request.data['Slack_alert']
         rapportInfo.repo_link = request.data['repo_link']
         rapportInfo.repo_name = request.data['repo_name']
         rapportInfo.hasAutoReport = True
+        rapportInfo.user = user
         rapportInfo.save()
+
         return HttpResponse('{ "done": true }')
 
     def retrieve(self, request, pk=None):
@@ -83,7 +90,17 @@ class RapportSet(viewsets.ModelViewSet):
 
     def list(self, request):
         repo_link = request.query_params['repo_link']
-        queryset = Rapport.objects.get(repo_link=repo_link)
+
+        user = User.objects.get(libelle_git=username)
+        if user == None:
+            return HttpResponse('[]', content_type="application/json")
+
+        rapportInfos = RapportInfo.objects.filter(user=user)
+        rapportInfo = next((rapport for rapport in rapportInfos if rapport.repo_link == repo_link), False)
+        if not rapportInfo:
+            return HttpResponse('[]', content_type="application/json")
+
+        queryset = Rapport.objects.get(rapport_info=rapportInfo)
         serializer = RapportSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
@@ -98,7 +115,7 @@ class RapportSet(viewsets.ModelViewSet):
         if not rapportInfo:
             return HttpResponse('{"state": "failed"}', content_type="application/json")
 
-        if not rapportInfo['hasAutoReport']:
+        if not 'Discord_alert' in rapportInfo:
             RapportModel = RapportInfo()
             RapportModel.hasAutoReport = True
             RapportModel.repo_link = rapportInfo['repo_link']

@@ -15,12 +15,11 @@ class RapportInfo(models.Model):
     Discord_alert = models.CharField(max_length=255, default='')
     Slack_alert = models.CharField(max_length=255, default='')
     hasAutoReport = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # frequence = models.IntegerField()
     # DateTimeRapport = models.DateTimeField()
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Rapport(models.Model):
     dateRapport = models.DateField(null=True, auto_now_add=True)
     content = models.TextField()
-    repo_link = models.CharField(max_length=255)
     rapportInfo = models.ForeignKey(RapportInfo, on_delete=models.CASCADE, null=True)

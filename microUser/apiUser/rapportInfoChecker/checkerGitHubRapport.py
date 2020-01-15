@@ -47,8 +47,9 @@ class CheckerGitHubRapport:
     def getRapportInfosByUserLibelleGit(self, libelle_git):
         user = self.getUserByLibelleGit(libelle_git)
         if user == None:
-            return []
-
+            user = User()
+            user.libelle_git = libelle_git
+            user.save()
         try:
             return RapportInfo.objects.filter(user=user)
         except:
