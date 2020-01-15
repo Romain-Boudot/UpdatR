@@ -26,6 +26,7 @@ export class authService {
       localStorage.clear()
     }
     this._token = value
+    console.warn(value, this._token)
   }
 
   logout() {
