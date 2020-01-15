@@ -29,7 +29,7 @@ router.beforeEach((to, from, next) => {
   }
   if (to.name === 'token') {
     auth.token = from.params.token
-    next('/login');
+    next('/');
   }
   next();
 })
