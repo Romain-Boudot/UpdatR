@@ -11,6 +11,10 @@ const app = express();
 const JWT_SECRET = 'q58sXwg3%8JgZG^g!&A#'
 
 app.get('/auth/callback', function(req, res) {
+  const code = req.query.code
+  if (!code) {
+    res.send('no code provided')
+  }
   wretch("https://github.com/login/oauth/access_token").json({
     client_id: "a79cafc41411d723ff50",
     client_secret: "d28491002fe5dab1da00763309e83fbd20174bb7",
