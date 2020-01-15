@@ -31,8 +31,8 @@ app.get('/auth/callback', function(req, res) {
     }).catch(err => { res.send(err) })
 })
 
-app.get('/local/token/info', function(res, req) {
-  const token = req.query.token
+app.get('/local/token/info/:token', function(req, res) {
+  const token = req.params.token
   if (!token) {
     res.send(JSON.stringify({ valid: false }))
   }
